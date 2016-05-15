@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "trello", "http://localhost/trello", "{3F3DDD41-1917-44A4-9714-BE18C05A34D3}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "false"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.1"
+		ProjectReferences = "{fd5ec793-f305-4985-98b3-5b0657429051}|PX.TrelloIntegration.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/trello"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\..\Program Files (x86)\Acumatica ERP\trello\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\trello\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/trello"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\..\Program Files (x86)\Acumatica ERP\trello\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\trello\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "..\..\..\..\..\Program Files (x86)\Acumatica ERP\trello\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PX.TrelloIntegration", "PX.TrelloIntegration\PX.TrelloIntegration.csproj", "{FD5EC793-F305-4985-98B3-5B0657429051}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{2479F216-CCF6-4B0E-BEA6-15BC746DB762}"
+	ProjectSection(SolutionItems) = preProject
+		_Assets\SQL\TrelloBoard.sql = _Assets\SQL\TrelloBoard.sql
+		_Assets\SQL\TrelloCard.sql = _Assets\SQL\TrelloCard.sql
+		_Assets\SQL\TrelloList.sql = _Assets\SQL\TrelloList.sql
+		_Assets\SQL\TrelloSetup.sql = _Assets\SQL\TrelloSetup.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F3DDD41-1917-44A4-9714-BE18C05A34D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F3DDD41-1917-44A4-9714-BE18C05A34D3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F3DDD41-1917-44A4-9714-BE18C05A34D3}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{FD5EC793-F305-4985-98B3-5B0657429051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD5EC793-F305-4985-98B3-5B0657429051}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD5EC793-F305-4985-98B3-5B0657429051}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD5EC793-F305-4985-98B3-5B0657429051}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

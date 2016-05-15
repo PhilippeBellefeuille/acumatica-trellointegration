@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FD5EC793-F305-4985-98B3-5B0657429051}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PX.TrelloIntegration</RootNamespace>
+    <AssemblyName>PX.TrelloIntegration</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Manatee.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c267f67a39449c62, processorArchitecture=MSIL">
+      <HintPath>..\packages\Manatee.Json.4.0.0\lib\net45\Manatee.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Manatee.StateMachine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=15909d91027a225e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Manatee.StateMachine.1.1.2\lib\net45\Manatee.StateMachine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Manatee.Trello, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f502fcc17fc907d6, processorArchitecture=MSIL">
+      <HintPath>..\packages\Manatee.Trello.1.9.0\lib\net45\Manatee.Trello.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Manatee.Trello.ManateeJson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=fbb8336f4f768592, processorArchitecture=MSIL">
+      <HintPath>..\packages\Manatee.Trello.ManateeJson.1.4.2.1\lib\net45\Manatee.Trello.ManateeJson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Manatee.Trello.RestSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=783b036be1eaf5a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Manatee.Trello.RestSharp.1.2.1\lib\net45\Manatee.Trello.RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PX.Common">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Acumatica ERP\trello\Bin\PX.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PX.Data">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Acumatica ERP\trello\Bin\PX.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PX.Objects">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Acumatica ERP\trello\Bin\PX.Objects.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=100.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharpSigned.105.2.3\lib\net452\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DAC\Attributes\PXTrelloBoardSelectorAttribute.cs" />
+    <Compile Include="DAC\TrelloBoard.cs" />
+    <Compile Include="DAC\TrelloSetup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="TrelloBoardSetup.cs" />
+    <Compile Include="TrelloSetupMaint.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
