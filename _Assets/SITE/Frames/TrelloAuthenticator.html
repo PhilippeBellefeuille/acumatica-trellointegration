@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Trello Authenticator</title>
+    <script type="text/javascript">
+
+        function refreshTrelloToken(str) {
+            var ds = this.opener.px_context.doc.main.px_cm.findDataSource();
+            if (ds != null) ds.executeCallback("CompleteAuthentication", str);
+            window.close();
+        }
+
+        if (window.location.hash && window.location.hash.length > 1) {
+            refreshTrelloToken(window.location.hash.substring(1));
+        }
+    </script>
+</head>
+<body style="height:0px;margin:0px;padding:0px">
+</body>
+</html>
