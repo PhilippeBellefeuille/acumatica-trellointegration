@@ -59,10 +59,6 @@
     <Reference Include="PX.Objects">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Acumatica ERP\trello\Bin\PX.Objects.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=100.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharpSigned.105.2.3\lib\net452\RestSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -75,8 +71,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAC\Attributes\PXTrelloOrganizationSelectorAttribute.cs" />
     <Compile Include="DAC\Attributes\PXTrelloBoardSelectorAttribute.cs" />
-    <Compile Include="DAC\TrelloBoard.cs" />
+    <Compile Include="DAC\TrelloBoardSetup.cs" />
     <Compile Include="DAC\TrelloSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -84,8 +81,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="TrelloBoardSetup.cs" />
+    <Compile Include="TrelloBoardSetupMaint.cs" />
     <Compile Include="TrelloSetupMaint.cs" />
+    <Compile Include="Trello\Data\Interfaces.cs" />
+    <Compile Include="Trello\Repository\TrelloOrganizationRepository.cs" />
+    <Compile Include="Trello\Repository\TrelloBoardRepository.cs" />
+    <Compile Include="Trello\Repository\TrelloRepository.cs" />
+    <Compile Include="Trello\Data\TrelloOrganization.cs" />
+    <Compile Include="Trello\Data\TrelloBoard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

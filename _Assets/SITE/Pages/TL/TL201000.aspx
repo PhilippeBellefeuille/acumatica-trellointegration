@@ -2,7 +2,7 @@
 <%@ MasterType VirtualPath="~/MasterPages/FormDetail.master" %>
 
 <asp:Content ID="cont1" ContentPlaceHolderID="phDS" Runat="Server">
-	<px:PXDataSource ID="ds" runat="server" Visible="True" TypeName="PX.TrelloIntegration.TrelloBoardSetup" PrimaryView="Board" SuspendUnloading="False">
+	<px:PXDataSource ID="ds" runat="server" Visible="True" TypeName="PX.TrelloIntegration.TrelloBoardSetupMaint" PrimaryView="Board" SuspendUnloading="False">
 	</px:PXDataSource>
 </asp:Content>
 <asp:Content ID="cont2" ContentPlaceHolderID="phF" Runat="Server">
@@ -14,14 +14,6 @@
             </px:PXSelector>
             <px:PXSelector ID="edCaseClassID" runat="server" DataField="CaseClassID">
             </px:PXSelector>
-            <px:PXTextEdit ID="edName" runat="server" DataField="Name">
-            </px:PXTextEdit>
-            <px:PXTextEdit ID="edDescr" runat="server" DataField="Descr">
-            </px:PXTextEdit>
-            <px:PXTextEdit ID="edUrlDescr" runat="server" DataField="UrlDescr">
-            </px:PXTextEdit>
-            <px:PXCheckBox ID="edActive" runat="server" DataField="Active" Text="Active">
-            </px:PXCheckBox>
 		</Template>
 	</px:PXFormView>
 </asp:Content>

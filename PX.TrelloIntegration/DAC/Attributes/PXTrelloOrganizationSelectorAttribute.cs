@@ -9,13 +9,13 @@ using PX.TrelloIntegration.Trello;
 
 namespace PX.TrelloIntegration
 {
-    public class PXTrelloBoardSelectorAttribute : PXCustomSelectorAttribute
+    public class PXTrelloOrganizationSelectorAttribute : PXCustomSelectorAttribute
     {
-        public PXTrelloBoardSelectorAttribute() : base(typeof(TrelloBoard.id)) { }
+        public PXTrelloOrganizationSelectorAttribute() : base(typeof(TrelloOrganization.id)) { }
 
         public IEnumerable GetRecords()
         {
-            return new TrelloBoardRepository(_Graph).GetAll();
+            return new TrelloOrganizationRepository(_Graph).GetAll();
         }
     }
 }

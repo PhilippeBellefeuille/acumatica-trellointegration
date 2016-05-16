@@ -1,4 +1,4 @@
-﻿DROP TABLE [dbo].[TrelloBoard]
+﻿DROP TABLE [dbo].[TrelloBoardSetup]
 SET ANSI_NULLS ON
 GO
 
@@ -8,12 +8,12 @@ GO
 SET ANSI_PADDING ON
 GO
 
-CREATE TABLE [dbo].[TrelloBoard](
+CREATE TABLE [dbo].[TrelloBoardSetup](
 	[CompanyID] [int] NOT NULL DEFAULT ((0)),
 	[BoardID] [int] IDENTITY(1,1) NOT NULL,
 	[TrelloBoardID] [nvarchar](30) NOT NULL,
 	[CaseClassID] [nvarchar](10) NOT NULL
- CONSTRAINT [TrelloBoard_PK] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [TrelloBoardSetup_PK] PRIMARY KEY CLUSTERED 
 (
 	[CompanyID] ASC,
 	[BoardID] ASC

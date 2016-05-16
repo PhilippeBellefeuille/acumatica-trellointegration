@@ -25,7 +25,7 @@
 
 		[PXDBString(30, IsUnicode = true)]
 		[PXUIField(DisplayName = "Organization")]
-        [PXTrelloBoardSelector]
+        [PXTrelloOrganizationSelector]
         public virtual string TrelloOrganizationID { get; set; }
 		#endregion
 	}
