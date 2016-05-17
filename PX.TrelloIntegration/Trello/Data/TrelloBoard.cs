@@ -23,8 +23,8 @@ namespace PX.TrelloIntegration.Trello
         [PXUIField(Visible = false, Enabled = false)]
         public virtual string Id { get; set; }
         #endregion
-        #region ParentID
-        public abstract class parentId : PX.Data.IBqlField
+        #region OrganizationId
+        public abstract class organizationId : PX.Data.IBqlField
         {
         }
 
@@ -32,7 +32,7 @@ namespace PX.TrelloIntegration.Trello
         [PXString(15, IsUnicode = true)]
         [PXDefault]
         [PXUIField(Visible = false, Enabled = false)]
-        public virtual string ParentId { get; set; }
+        public virtual string OrganizationId { get; set; }
         #endregion
         #region Name
         public abstract class name : PX.Data.IBqlField

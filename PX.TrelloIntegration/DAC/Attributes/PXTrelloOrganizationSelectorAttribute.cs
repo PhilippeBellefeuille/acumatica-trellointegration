@@ -11,7 +11,10 @@ namespace PX.TrelloIntegration
 {
     public class PXTrelloOrganizationSelectorAttribute : PXCustomSelectorAttribute
     {
-        public PXTrelloOrganizationSelectorAttribute() : base(typeof(TrelloOrganization.id)) { }
+        public PXTrelloOrganizationSelectorAttribute() : base(typeof(TrelloOrganization.id))
+        {
+            DescriptionField = typeof(TrelloOrganization.name);
+        }
 
         public IEnumerable GetRecords()
         {

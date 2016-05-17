@@ -13,6 +13,6 @@ namespace PX.TrelloIntegration.Trello
 
     public interface ITrelloOrganizationObject
     {
-        string ParentId { get; set; }
+        string OrganizationId { get; set; }
     }
 }

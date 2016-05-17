@@ -11,7 +11,11 @@ namespace PX.TrelloIntegration
 {
     public class PXTrelloBoardSelectorAttribute : PXCustomSelectorAttribute
     {
-        public PXTrelloBoardSelectorAttribute() : base(typeof(TrelloBoard.id)) { }
+        
+        public PXTrelloBoardSelectorAttribute() : base(typeof(TrelloBoard.id))
+        {
+            DescriptionField = typeof(TrelloBoard.name);
+        }
 
         public IEnumerable GetRecords()
         {

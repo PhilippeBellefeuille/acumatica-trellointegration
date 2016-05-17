@@ -29,9 +29,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PX.TrelloIntegration", "PX.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{2479F216-CCF6-4B0E-BEA6-15BC746DB762}"
 	ProjectSection(SolutionItems) = preProject
-		_Assets\SQL\TrelloBoardSetup.sql = _Assets\SQL\TrelloBoardSetup.sql
-		_Assets\SQL\TrelloCard.sql = _Assets\SQL\TrelloCard.sql
-		_Assets\SQL\TrelloList.sql = _Assets\SQL\TrelloList.sql
+		_Assets\SQL\TrelloBoardMapping.sql = _Assets\SQL\TrelloBoardMapping.sql
+		_Assets\SQL\TrelloCardMapping.sql = _Assets\SQL\TrelloCardMapping.sql
+		_Assets\SQL\TrelloListMapping.sql = _Assets\SQL\TrelloListMapping.sql
 		_Assets\SQL\TrelloSetup.sql = _Assets\SQL\TrelloSetup.sql
 	EndProjectSection
 EndProject

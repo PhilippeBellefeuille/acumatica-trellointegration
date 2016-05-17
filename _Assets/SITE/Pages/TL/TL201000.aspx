@@ -2,7 +2,7 @@
 <%@ MasterType VirtualPath="~/MasterPages/FormDetail.master" %>
 
 <asp:Content ID="cont1" ContentPlaceHolderID="phDS" Runat="Server">
-	<px:PXDataSource ID="ds" runat="server" Visible="True" TypeName="PX.TrelloIntegration.TrelloBoardSetupMaint" PrimaryView="Board" SuspendUnloading="False">
+	<px:PXDataSource ID="ds" runat="server" Visible="True" TypeName="PX.TrelloIntegration.TrelloBoardMappingMaint" PrimaryView="Board" SuspendUnloading="False">
 	</px:PXDataSource>
 </asp:Content>
 <asp:Content ID="cont2" ContentPlaceHolderID="phF" Runat="Server">

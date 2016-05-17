@@ -5,7 +5,7 @@ using PX.Objects.CR;
 namespace PX.TrelloIntegration
 {
 	[Serializable]
-	public class TrelloBoardSetup : PX.Data.IBqlTable
+	public class TrelloBoardMapping : PX.Data.IBqlTable
 	{
 		#region BoardID
 		public abstract class boardID : PX.Data.IBqlField

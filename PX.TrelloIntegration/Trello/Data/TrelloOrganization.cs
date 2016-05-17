@@ -19,6 +19,7 @@ namespace PX.TrelloIntegration.Trello
 
         [PXString(15, IsUnicode = true)]
         [PXDefault]
+        [PXUIField(Visible = false, Enabled = false)]
         public virtual string Id { get; set; }
         #endregion
         #region Name

@@ -30,7 +30,7 @@ namespace PX.TrelloIntegration.Trello
             return new TrelloBoard
             {
                 Id = board.Id,
-                ParentId = board.Organization?.Id,
+                OrganizationId = board.Organization?.Id,
                 Name = board.Name,
                 Descr = board.Description
             };
