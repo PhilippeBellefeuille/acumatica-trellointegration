@@ -63,6 +63,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,6 +85,8 @@
     <Compile Include="TrelloBoardMappingMaint.cs" />
     <Compile Include="TrelloSetupMaint.cs" />
     <Compile Include="Trello\Data\Interfaces.cs" />
+    <Compile Include="Trello\Data\TrelloMember.cs" />
+    <Compile Include="Trello\Repository\TrelloMemberRepository.cs" />
     <Compile Include="Trello\Repository\TrelloOrganizationRepository.cs" />
     <Compile Include="Trello\Repository\TrelloBoardRepository.cs" />
     <Compile Include="Trello\Repository\TrelloRepository.cs" />

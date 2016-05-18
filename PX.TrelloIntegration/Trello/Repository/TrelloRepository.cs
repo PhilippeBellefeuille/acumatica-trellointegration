@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 
 namespace PX.TrelloIntegration.Trello
 {
-    public abstract class TrelloRepository<TTrelloDac, TTrelloObject>
-        where TTrelloDac : class, IBqlTable, ITrelloObject, new()
+    public class TrelloRepository
     {
         public TrelloSetup Setup { get; }
 
@@ -21,23 +20,11 @@ namespace PX.TrelloIntegration.Trello
             Connect();
         }
 
-        public IEnumerable<TTrelloDac> GetAll()
+        public TrelloRepository(TrelloSetup setup)
         {
-            foreach (var obj in GetAllTrelloObject())
-            {
-                yield return To(obj);
-            }
+            Setup = setup;
+            Connect();
         }
-
-        public TTrelloDac GetByID(string id)
-        {
-            return To(GetTrelloObjectByID(id));
-        }
-
-        public abstract IEnumerable<TTrelloObject> GetAllTrelloObject();
-        public abstract TTrelloObject GetTrelloObjectByID(string id);
-
-        public abstract TTrelloDac To(TTrelloObject obj);
 
         public Member Member
         {
@@ -64,8 +51,32 @@ namespace PX.TrelloIntegration.Trello
             TrelloConfiguration.RestClientProvider = new RestSharpClientProvider();
             TrelloAuthorization.Default.AppKey = Properties.Settings.Default.TrelloAPIKey;
             TrelloAuthorization.Default.UserToken = Setup.TrelloUsrToken;
-            
         }
+    }
+
+    public abstract class TrelloRepository<TTrelloDac, TTrelloObject> : TrelloRepository
+        where TTrelloDac : class, IBqlTable, ITrelloObject, new()
+    {
+        public TrelloRepository(PXGraph graph) : base(graph) { }
+        public TrelloRepository(TrelloSetup setup) : base(setup) { }
+
+        public IEnumerable<TTrelloDac> GetAll()
+        {
+            foreach (var obj in GetAllTrelloObject())
+            {
+                yield return To(obj);
+            }
+        }
+
+        public TTrelloDac GetByID(string id)
+        {
+            return To(GetTrelloObjectByID(id));
+        }
+
+        public abstract IEnumerable<TTrelloObject> GetAllTrelloObject();
+        public abstract TTrelloObject GetTrelloObjectByID(string id);
+
+        public abstract TTrelloDac To(TTrelloObject obj);
     }
 
     public abstract class TrelloOrganizationableRepository<TTrelloDac, TTrelloObject> : 
@@ -73,6 +84,7 @@ namespace PX.TrelloIntegration.Trello
         where TTrelloDac : class, IBqlTable, ITrelloObject, ITrelloOrganizationObject, new()
     {
         public TrelloOrganizationableRepository(PXGraph graph) : base(graph) { }
+        public TrelloOrganizationableRepository(TrelloSetup setup) : base(setup) { }
 
         private Organization _Organization;
         public Organization Organization

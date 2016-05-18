@@ -11,7 +11,16 @@ GO
 CREATE TABLE [dbo].[TrelloSetup](
 	[CompanyID] [int] NOT NULL DEFAULT ((0)),
 	[TrelloUsrToken] [nvarchar](100) NULL,
-	[TrelloOrganizationID] [nvarchar](30) NULL
+	[TrelloOrganizationID] [nvarchar](50) NULL,
+	[ConnectionDateTime] [datetime] NULL,
+	[UserName] [nvarchar](30) NULL,
+	[tstamp] [timestamp] NOT NULL,
+	[CreatedByID] [uniqueidentifier] NOT NULL,
+	[CreatedByScreenID] [char](8) NOT NULL,
+	[CreatedDateTime] [datetime] NOT NULL,
+	[LastModifiedByID] [uniqueidentifier] NOT NULL,
+	[LastModifiedByScreenID] [char](8) NOT NULL,
+	[LastModifiedDateTime] [datetime] NOT NULL,
  CONSTRAINT [TrelloSetup_PK] PRIMARY KEY CLUSTERED 
 (
 	[CompanyID] ASC
