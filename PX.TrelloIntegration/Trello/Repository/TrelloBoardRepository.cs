@@ -10,9 +10,9 @@ namespace PX.TrelloIntegration.Trello
 {
     public class TrelloBoardRepository : TrelloOrganizationableRepository<TrelloBoard, Board>
     {
-        public TrelloBoardRepository(PXGraph graph) : base(graph) { }
+        public TrelloBoardRepository(object arg) : base(arg) { }
 
-        public override IEnumerable<Board> GetAllTrelloObject()
+        public override IEnumerable<Board> GetAllTrelloObject(string parentID = null)
         {
             foreach (var board in BoardCollection)
             {

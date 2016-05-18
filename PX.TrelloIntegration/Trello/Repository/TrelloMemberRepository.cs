@@ -10,17 +10,19 @@ namespace PX.TrelloIntegration.Trello
 {
     public class TrelloMemberRepository : TrelloRepository<TrelloMember, Member>
     {
-        public TrelloMemberRepository(PXGraph graph) : base(graph) { }
-        public TrelloMemberRepository(TrelloSetup setup) : base(setup) { }
+        public TrelloMemberRepository(object arg) : base(arg) { }
 
         public TrelloMember GetCurrentMember()
         {
             return To(base.Member);
         }
 
-        public override IEnumerable<Member> GetAllTrelloObject()
+        public override IEnumerable<Member> GetAllTrelloObject(string boardID)
         {
-            yield return base.Member;   
+            foreach(var boardMember in new Board(boardID).Members)
+            {
+                yield return boardMember;
+            }  
         }
 
         public override Member GetTrelloObjectByID(string id)

@@ -60,18 +60,23 @@ namespace PX.TrelloIntegration
         public virtual IEnumerable CompleteAuthentication(PXAdapter adapter)
         {
             var token = TrelloToken.GetToken(adapter.CommandArguments);
-            var setup = Document.Current;
 
-            setup.TrelloUsrToken = token.Token;
+            //If the user deny the authentication token will be blank
+            if(!string.IsNullOrEmpty(token.Token))
+            {
+                var setup = Document.Current;
 
-            var memberRepo = new TrelloMemberRepository(setup);
-            var currentMember = memberRepo.GetCurrentMember();
+                setup.TrelloUsrToken = token.Token;
 
-            setup.ConnectionDateTime = DateTime.Now;
-            setup.UserName = currentMember.Name;
+                var memberRepo = new TrelloMemberRepository(setup);
+                var currentMember = memberRepo.GetCurrentMember();
 
-            Document.Update(setup);
-            this.Actions.PressSave();
+                setup.ConnectionDateTime = DateTime.Now;
+                setup.UserName = currentMember.Name;
+
+                Document.Update(setup);
+                this.Actions.PressSave();
+            }
 
             return adapter.Get();
         }

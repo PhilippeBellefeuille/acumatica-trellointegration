@@ -12,25 +12,34 @@ namespace PX.TrelloIntegration.Trello
 {
     public class TrelloRepository
     {
-        public TrelloSetup Setup { get; }
+        public TrelloSetup Setup { get; internal set; }
 
-        public TrelloRepository(PXGraph graph)
+        public TrelloRepository(object arg)
         {
-            Setup = (TrelloSetup)PXSetup<TrelloSetup>.Select(graph);
-            Connect();
+            if(arg is TrelloSetup)
+            {
+                SetConnection((TrelloSetup)arg);
+            }
+            else if(arg is PXGraph)
+            {
+                SetConnection(PXSetup<TrelloSetup>.Select((PXGraph)arg));
+            }
         }
 
-        public TrelloRepository(TrelloSetup setup)
+        public void SetConnection(TrelloSetup setup)
         {
-            Setup = setup;
-            Connect();
+            if (setup != null && !string.IsNullOrEmpty(setup.TrelloUsrToken))
+            {
+                Setup = setup;
+                Connect();
+            }
         }
 
         public Member Member
         {
             get
             {
-                return Member.Me;
+                return Setup != null ? Member.Me : null;
             }
         }
 
@@ -38,7 +47,7 @@ namespace PX.TrelloIntegration.Trello
         {
             get
             {
-                return Member.Me.Boards;
+                return Setup != null ? Member.Me.Boards : null;
             }
         }
 
@@ -57,8 +66,7 @@ namespace PX.TrelloIntegration.Trello
     public abstract class TrelloRepository<TTrelloDac, TTrelloObject> : TrelloRepository
         where TTrelloDac : class, IBqlTable, ITrelloObject, new()
     {
-        public TrelloRepository(PXGraph graph) : base(graph) { }
-        public TrelloRepository(TrelloSetup setup) : base(setup) { }
+        public TrelloRepository(object arg) : base(arg) { }
 
         public IEnumerable<TTrelloDac> GetAll()
         {
@@ -73,7 +81,7 @@ namespace PX.TrelloIntegration.Trello
             return To(GetTrelloObjectByID(id));
         }
 
-        public abstract IEnumerable<TTrelloObject> GetAllTrelloObject();
+        public abstract IEnumerable<TTrelloObject> GetAllTrelloObject(string parentID = "");
         public abstract TTrelloObject GetTrelloObjectByID(string id);
 
         public abstract TTrelloDac To(TTrelloObject obj);
@@ -83,15 +91,14 @@ namespace PX.TrelloIntegration.Trello
                             TrelloRepository<TTrelloDac, TTrelloObject>
         where TTrelloDac : class, IBqlTable, ITrelloObject, ITrelloOrganizationObject, new()
     {
-        public TrelloOrganizationableRepository(PXGraph graph) : base(graph) { }
-        public TrelloOrganizationableRepository(TrelloSetup setup) : base(setup) { }
+        public TrelloOrganizationableRepository(object arg) : base(arg) { }
 
         private Organization _Organization;
         public Organization Organization
         {
             get
             {
-                if (string.IsNullOrEmpty(Setup.TrelloOrganizationID))
+                if (Setup == null || string.IsNullOrEmpty(Setup.TrelloOrganizationID))
                     return null;
                 if (_Organization != null)
                     return _Organization;
@@ -105,7 +112,7 @@ namespace PX.TrelloIntegration.Trello
             {
                 if (Organization != null)
                     return Organization.Boards;
-                return Member.Me.Boards;
+                return base.BoardCollection;
             }
         }
 

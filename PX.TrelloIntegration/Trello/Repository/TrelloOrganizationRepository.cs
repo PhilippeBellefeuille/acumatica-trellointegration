@@ -10,9 +10,9 @@ namespace PX.TrelloIntegration.Trello
 {
     public class TrelloOrganizationRepository : TrelloRepository<TrelloOrganization, Organization>
     {
-        public TrelloOrganizationRepository(PXGraph graph) : base(graph) { }
+        public TrelloOrganizationRepository(object arg) : base(arg) { }
 
-        public override IEnumerable<Organization> GetAllTrelloObject()
+        public override IEnumerable<Organization> GetAllTrelloObject(string parentID = null)
         {
             foreach (var organization in base.Member.Organizations)
             {

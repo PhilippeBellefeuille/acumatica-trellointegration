@@ -9,17 +9,24 @@ using PX.TrelloIntegration.Trello;
 
 namespace PX.TrelloIntegration
 {
-    public class PXTrelloBoardSelectorAttribute : PXCustomSelectorAttribute
+    public class PXTrelloBoardSelectorAttribute : PXTrelloSelectorBaseAttribute
     {
-        
+        public override Type RepositoryType
+        {
+            get
+            {
+                return typeof(TrelloBoardRepository);
+            }
+        }
+
         public PXTrelloBoardSelectorAttribute() : base(typeof(TrelloBoard.id))
         {
             DescriptionField = typeof(TrelloBoard.name);
         }
-
-        public IEnumerable GetRecords()
+        
+        public override IEnumerable GetTrelloRecords()
         {
-            return new TrelloBoardRepository(_Graph).GetAll();
+            return ((TrelloBoardRepository)Repository).GetAll();
         }
     }
 }
