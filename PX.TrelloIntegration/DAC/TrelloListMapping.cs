@@ -1,51 +1,58 @@
 ﻿using System;
 using PX.Data;
+using PX.SM;
 
 namespace PX.TrelloIntegration
 {
-    [Serializable]
-	public class TrelloSetup : PX.Data.IBqlTable
+	[Serializable]
+	public class TrelloListMapping : PX.Data.IBqlTable
 	{
-        #region TrelloUsrToken
-        public abstract class trelloUsrToken : PX.Data.IBqlField
+		#region BoardID
+		public abstract class boardID : PX.Data.IBqlField
 		{
 		}
 
-		[PXDBString(64, IsUnicode = true)]
-		[PXUIField(DisplayName = "Usr Token")]
-		public virtual string TrelloUsrToken { get; set; }
+		[PXDBInt(IsKey = true)]
+        [PXParent(typeof(Select<TrelloBoardMapping, 
+                            Where<TrelloBoardMapping.boardID, 
+                                Equal<TrelloListMapping.boardID>>>))]
+        [PXDBDefault(typeof(TrelloBoardMapping.boardID))]
+		public virtual int? BoardID { get; set; }
         #endregion
-        #region TrelloOrganizationID
-        public abstract class trelloOrganizationID : PX.Data.IBqlField
+
+        #region ListID
+        public abstract class listID : PX.Data.IBqlField
+        {
+        }
+
+        [PXDBInt(IsKey = true)]
+        [PXLineNbr(typeof(TrelloBoardMapping.listCntr))]
+        public virtual int? ListID { get; set; }
+        #endregion
+
+        #region TrelloListID
+        public abstract class trelloListID : PX.Data.IBqlField
 		{
 		}
 
 		[PXDBString(30, IsUnicode = true)]
-		[PXUIField(DisplayName = "Organization")]
-        [PXTrelloOrganizationSelector(UseSetupCache = true)]
-        public virtual string TrelloOrganizationID { get; set; }
+		[PXDefault]
+		[PXUIField(DisplayName = "Trello List")]
+        [PXTrelloBoardSelector]
+		public virtual string TrelloListID { get; set; }
         #endregion
 
-        #region ConnectionDateTime
-        public abstract class connectionDateTime : PX.Data.IBqlField
+        #region StepID
+        public abstract class stepID : IBqlField
         {
         }
 
-        [PXDBDateAndTime]
-        [PXUIField(DisplayName = "Connected on")]
-        public virtual DateTime? ConnectionDateTime { get; set; }
+        [PXDBString(64, IsUnicode = true, InputMask = "")]
+        [PXDefault]
+        [PXUIField(DisplayName = "Step ID", Visibility = PXUIVisibility.SelectorVisible)]
+        [PXSelector(typeof(Search<AUStep.stepID, Where<AUStep.screenID, Equal<caseScreenID>>>))]
+        public virtual String StepID { get; set; }
         #endregion
-
-        #region UserName
-        public abstract class userName : PX.Data.IBqlField
-        {
-        }
-
-        [PXDBString(50, IsUnicode = true)]
-        [PXUIField(DisplayName = "User Name")]
-        public virtual string UserName { get; set; }
-        #endregion
-
         #region System Fields
 
         #region tstamp

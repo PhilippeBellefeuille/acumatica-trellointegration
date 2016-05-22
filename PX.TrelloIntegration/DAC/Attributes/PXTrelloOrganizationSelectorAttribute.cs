@@ -1,10 +1,5 @@
-﻿using PX.Data;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections;
-using Manatee.Trello.ManateeJson;
-using Manatee.Trello;
-using Manatee.Trello.RestSharp;
 using PX.TrelloIntegration.Trello;
 
 namespace PX.TrelloIntegration

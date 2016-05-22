@@ -18,12 +18,24 @@
 	</px:PXFormView>
 </asp:Content>
 <asp:Content ID="cont3" ContentPlaceHolderID="phG" Runat="Server">
-<%--	<px:PXGrid ID="grid" runat="server" DataSourceID="ds" Style="z-index: 100" 
-		Width="100%" Height="150px" SkinID="Details">
+	<px:PXGrid ID="grid" runat="server" DataSourceID="ds" Style="z-index: 100" 
+		Width="100%" Height="150px" SkinID="Details" TabIndex="1500">
 		<Levels>
-			<px:PXGridLevel>
+			<px:PXGridLevel DataKeyNames="BoardID,ListID" DataMember="List">
+			    <RowTemplate>
+                    <px:PXSelector ID="edStepID" runat="server" DataField="StepID">
+                    </px:PXSelector>
+                    <px:PXSelector ID="edTrelloListID" runat="server" DataField="TrelloListID">
+                    </px:PXSelector>
+                </RowTemplate>
+                <Columns>
+                    <px:PXGridColumn DataField="StepID" Width="200px">
+                    </px:PXGridColumn>
+                    <px:PXGridColumn DataField="TrelloListID" Width="120px">
+                    </px:PXGridColumn>
+                </Columns>
 			</px:PXGridLevel>
 		</Levels>
 		<AutoSize Container="Window" Enabled="True" MinHeight="150" />
-	</px:PXGrid>--%>
+	</px:PXGrid>
 </asp:Content>

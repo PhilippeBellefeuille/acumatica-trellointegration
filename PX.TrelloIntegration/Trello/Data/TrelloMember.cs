@@ -1,11 +1,5 @@
 ﻿using PX.Data;
-using PX.TrelloIntegration.Trello;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Manatee.Trello;
 
 namespace PX.TrelloIntegration.Trello
 {

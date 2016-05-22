@@ -13,7 +13,6 @@ namespace PX.TrelloIntegration
 		}
 
 		[PXDBIdentity(IsKey = true)]
-		[PXUIField(Enabled = false)]
 		public virtual int? BoardID { get; set; }
 		#endregion
 		#region CaseClassID
@@ -39,6 +38,15 @@ namespace PX.TrelloIntegration
         [PXTrelloBoardSelector]
         [PXCheckUnique]
 		public virtual string TrelloBoardID { get; set; }
+        #endregion
+        #region ListCntr
+        public abstract class listCntr : PX.Data.IBqlField
+        {
+        }
+
+        [PXDBInt()]
+        [PXDefault(0)]
+        public virtual Int32? ListCntr { get; set; }
         #endregion
 
         #region System Fields

@@ -10,9 +10,10 @@ GO
 
 CREATE TABLE [dbo].[TrelloListMapping](
 	[CompanyID] [int] NOT NULL DEFAULT ((0)),
-	[ListID] [int] IDENTITY(1,1) NOT NULL,
-	[TrelloBoardID] [nvarchar](30) NOT NULL,
-	[Status] [nvarchar](10) NOT NULL,
+	[BoardID] [int] NOT NULL,
+	[ListID] [int] NOT NULL,
+	[TrelloListID] [nvarchar](30) NOT NULL,
+	[StepID] [nvarchar](64) NOT NULL,
 	[tstamp] [timestamp] NOT NULL,
 	[CreatedByID] [uniqueidentifier] NOT NULL,
 	[CreatedByScreenID] [char](8) NOT NULL,
@@ -23,7 +24,8 @@ CREATE TABLE [dbo].[TrelloListMapping](
  CONSTRAINT [TrelloListMapping_PK] PRIMARY KEY CLUSTERED 
 (
 	[CompanyID] ASC,
-	[BoardID] ASC
+	[BoardID] ASC,
+	[ListID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 

@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[TrelloBoardMapping](
 	[BoardID] [int] IDENTITY(1,1) NOT NULL,
 	[TrelloBoardID] [nvarchar](30) NOT NULL,
 	[CaseClassID] [nvarchar](10) NOT NULL,
+	[ListCntr] [int] NOT NULL,
 	[tstamp] [timestamp] NOT NULL,
 	[CreatedByID] [uniqueidentifier] NOT NULL,
 	[CreatedByScreenID] [char](8) NOT NULL,
