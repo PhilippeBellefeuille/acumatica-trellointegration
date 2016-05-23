@@ -61,13 +61,8 @@ namespace PX.TrelloIntegration
             {
                 AddBoard.SetEnabled(Boards.Current.ParentBoardID == 0);
                 DeleteBoard.SetEnabled(Boards.Current.BoardID != 0);
-                
-                PXDefaultAttribute.SetPersistingCheck<TrelloBoardMapping.caseClassID>(
-                                        Caches[typeof(TrelloBoardMapping)], 
-                                        null,                         
-                                        Boards.Current.ParentBoardID == 0 ?
-                                            PXPersistingCheck.Nothing :
-                                            PXPersistingCheck.NullOrBlank);
+
+                PopulateStates.SetEnabled(!string.IsNullOrEmpty(Boards.Current.TrelloBoardID));
                 
                 PXUIFieldAttribute.SetVisible<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.ParentBoardID == 0);
                 PXUIFieldAttribute.SetVisible<TrelloBoardMapping.caseClassID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.ParentBoardID != 0);
@@ -75,13 +70,15 @@ namespace PX.TrelloIntegration
                 PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
                 PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.caseClassID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
                 PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.trelloBoardID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
+
                 Caches[typeof(TrelloBoardMapping)].AllowInsert = Boards.Current.BoardID != 0;
                 Caches[typeof(TrelloBoardMapping)].AllowDelete = Boards.Current.BoardID != 0;
                 Caches[typeof(TrelloBoardMapping)].AllowUpdate = Boards.Current.BoardID != 0;
 
                 foreach (TrelloBoardMapping item in PXSelect<TrelloBoardMapping,
-                Where<TrelloBoardMapping.boardID, Equal<Required<TrelloBoardMapping.boardID>>>>.
-                Select(this, Boards.Current.BoardID))
+                                                        Where<TrelloBoardMapping.boardID, 
+                                                            Equal<Required<TrelloBoardMapping.boardID>>>>.
+                                                    Select(this, Boards.Current.BoardID))
                 {
                     yield return item;
                 }
@@ -111,16 +108,34 @@ namespace PX.TrelloIntegration
                 login.SetVisible(!isConnected);
                 logout.SetVisible(isConnected);
                 PXUIFieldAttribute.SetEnabled<TrelloSetup.trelloOrganizationID>(sender, row, isConnected);
+                
+                CurrentBoard.AllowUpdate = CurrentBoard.AllowUpdate && isConnected;
+
+                List.AllowUpdate = isConnected;
+
+                AddBoard.SetEnabled(AddBoard.GetEnabled() && isConnected);
+                DeleteBoard.SetEnabled(DeleteBoard.GetEnabled() && isConnected);
+                PopulateStates.SetEnabled(PopulateStates.GetEnabled() && isConnected);
             }
         }
 
-        public virtual void TrelloBoardMapping_Description_FieldDefaulting(PXCache sender, PXFieldDefaultingEventArgs e)
+        public virtual void TrelloBoardMapping_RowPersisting(PXCache sender, PXRowPersistingEventArgs e)
         {
             var row = (TrelloBoardMapping)e.Row;
-            if(!string.IsNullOrEmpty(row.CaseClassID))
-            {
-                e.NewValue = row.CaseClassID;
-            }
+
+            PXDefaultAttribute.SetPersistingCheck<TrelloBoardMapping.caseClassID>(
+                        sender,
+                        row,
+                        row.ParentBoardID == 0 ?
+                            PXPersistingCheck.Nothing :
+                            PXPersistingCheck.NullOrBlank);
+
+            PXDefaultAttribute.SetPersistingCheck<TrelloBoardMapping.trelloBoardID>(
+                        sender,
+                        row,
+                        row.ParentBoardID == 0 ?
+                            PXPersistingCheck.Nothing :
+                            PXPersistingCheck.NullOrBlank);
         }
 
         #endregion

@@ -6,6 +6,7 @@
 	    <CallbackCommands>
             <px:PXDSCallbackCommand CommitChanges="True" Name="Login" />
             <px:PXDSCallbackCommand CommitChanges="True" Name="CompleteAuthentication" Visible="False" />
+            <px:PXDSCallbackCommand CommitChanges="True" Name="PopulateStates" Visible="False" />        
         </CallbackCommands>
         <DataTrees>
             <px:PXTreeDataMember TreeView="Boards" TreeKeys="BoardID" />
@@ -69,7 +70,7 @@
                             <px:PXGrid ID="grid" runat="server" DataSourceID="ds" Style="z-index: 100" 
 		                        Width="100%" SkinID="Inquire" TabIndex="1500">
 		                        <Levels>
-			                        <px:PXGridLevel DataKeyNames="BoardID,ListID" DataMember="List">
+			                        <px:PXGridLevel DataMember="List">
 			                            <RowTemplate>
                                             <px:PXSelector ID="edStepID" runat="server" DataField="StepID">
                                             </px:PXSelector>
@@ -79,12 +80,17 @@
                                         <Columns>
                                             <px:PXGridColumn DataField="StepID" Width="200px">
                                             </px:PXGridColumn>
-                                            <px:PXGridColumn DataField="TrelloListID" Width="120px">
+                                            <px:PXGridColumn DataField="TrelloListID" Width="200px">
                                             </px:PXGridColumn>
                                         </Columns>
 			                        </px:PXGridLevel>
 		                        </Levels>
 		                        <AutoSize Container="Window" Enabled="True" />
+                                <ActionBar>
+                                    <CustomItems>
+                                        <px:PXToolBarButton  Key="cmdPopulateState" CommandSourceID="ds" CommandName="PopulateStates" />
+                                    </CustomItems>
+                                </ActionBar>
 	                        </px:PXGrid>
                         </Template>
                     </px:PXTabItem>
