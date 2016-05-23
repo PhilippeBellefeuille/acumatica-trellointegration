@@ -48,8 +48,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TL", "TL", "{F5E9C2C5-A90C-
 	ProjectSection(SolutionItems) = preProject
 		_Assets\SITE\Pages\TL\TL101000.aspx = _Assets\SITE\Pages\TL\TL101000.aspx
 		_Assets\SITE\Pages\TL\TL101000.aspx.cs = _Assets\SITE\Pages\TL\TL101000.aspx.cs
-		_Assets\SITE\Pages\TL\TL201000.aspx = _Assets\SITE\Pages\TL\TL201000.aspx
-		_Assets\SITE\Pages\TL\TL201000.aspx.cs = _Assets\SITE\Pages\TL\TL201000.aspx.cs
 	EndProjectSection
 EndProject
 Global

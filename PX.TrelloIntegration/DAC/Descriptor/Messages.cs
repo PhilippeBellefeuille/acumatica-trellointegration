@@ -11,5 +11,8 @@ namespace PX.TrelloIntegration
         public const string Prefix = "Trello Error";
 
         #endregion
+
+        public const string NewBoard = "<NEW>";
+
     }
 }

@@ -8,7 +8,7 @@
             <px:PXDSCallbackCommand CommitChanges="True" Name="CompleteAuthentication" Visible="False" />
         </CallbackCommands>
         <DataTrees>
-            <px:PXTreeDataMember TreeView="Folders" TreeKeys="BoardType, BoardID" />
+            <px:PXTreeDataMember TreeView="Boards" TreeKeys="BoardID" />
         </DataTrees>
     </px:PXDataSource>
 </asp:Content>
@@ -31,7 +31,7 @@
         <Template1>
             <px:PXTreeView ID="tree" runat="server" DataSourceID="ds" Height="180px"
                 ShowRootNode="False" AllowCollapse="False" Caption="Boards Mapping" AutoRepaint="True"
-                SyncPosition="True" ExpandDepth="4" DataMember="Folders" KeepPosition="True" 
+                SyncPosition="True" ExpandDepth="4" DataMember="Boards" KeepPosition="True" 
                 SyncPositionWithGraph="True" PreserveExpanded="True" PopulateOnDemand="true" SelectFirstNode="True">
                 <ToolBarItems>
                     <px:PXToolBarButton Text="Add Board Binding" Tooltip="Add Board Binding">
@@ -46,8 +46,7 @@
                 </ToolBarItems>
                 <AutoCallBack Target="formBoard" Command="Refresh" Enabled="True" />
                 <DataBindings>
-                    <px:PXTreeItemBinding DataMember="Folders" TextField="Description" ValueField="BoardType" />
-                    <px:PXTreeItemBinding DataMember="Folders" TextField="Description" ValueField="BoardID" />
+                    <px:PXTreeItemBinding DataMember="Boards" TextField="DisplayName" ValueField="BoardID" />
                 </DataBindings>
                 <AutoSize Enabled="True" />
             </px:PXTreeView>
@@ -57,9 +56,10 @@
                         Caption="Board Info" Width="100%" >
                 <Template>
                     <px:PXLayoutRule ID="PXLayoutRule1" runat="server" StartColumn="True" LabelsWidth="S" ControlSize="SM" />
-                    <px:PXSelector ID="edTrelloBoardID" runat="server" DataField="TrelloBoardID" CommitChanges="True"/>
+                    <px:PXDropDown ID="edBoardType" runat="server" DataField="BoardType" CommitChanges="true" />
+                    <px:PXSelector ID="edCaseClassID" runat="server" DataField="CaseClassID" CommitChanges="True"/>                    
                     <px:PXLayoutRule ID="PXLayoutRule2" runat="server" StartColumn="True" LabelsWidth="S" ControlSize="SM" />
-                    <px:PXSelector ID="edCaseClassID" runat="server" DataField="CaseClassID" CommitChanges="True"/>
+                    <px:PXSelector ID="edTrelloBoardID" runat="server" DataField="TrelloBoardID" CommitChanges="True"/>
                 </Template>
             </px:PXFormView>
             <px:PXTab runat="server" ID="tab" >

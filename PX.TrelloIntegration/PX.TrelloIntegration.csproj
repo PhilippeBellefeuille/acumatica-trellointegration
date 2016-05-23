@@ -86,7 +86,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="TrelloBoardMappingMaint.cs" />
     <Compile Include="TrelloSetupMaint.cs" />
     <Compile Include="Trello\Data\Interfaces.cs" />
     <Compile Include="Trello\Data\TrelloMember.cs" />

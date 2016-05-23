@@ -4,16 +4,25 @@ using PX.Objects.CR;
 
 namespace PX.TrelloIntegration
 {
-	[Serializable]
-	public class TrelloBoardMapping : PX.Data.IBqlTable
-	{
-		#region BoardID
-		public abstract class boardID : PX.Data.IBqlField
-		{
-		}
+    [Serializable]
+    public class TrelloBoardMapping : PX.Data.IBqlTable
+    {
+        #region BoardID
+        public abstract class boardID : PX.Data.IBqlField
+        {
+        }
 
-		[PXDBIdentity(IsKey = true)]
-		public virtual int? BoardID { get; set; }
+        [PXDBIdentity(IsKey = true)]
+        public virtual int? BoardID { get; set; }
+        #endregion
+        #region ParentBoardID
+        public abstract class parentBoardID : PX.Data.IBqlField
+        {
+        }
+
+        [PXDBInt()]
+        [PXDefault(0)]
+        public virtual int? ParentBoardID { get; set; }
         #endregion
         #region BoardType
         public abstract class boardType : PX.Data.IBqlField
@@ -21,7 +30,9 @@ namespace PX.TrelloIntegration
         }
 
         [PXDBInt]
-        [PXIntList(typeof(BoardTypes))]
+        [PXTrelloBoardType]
+        [PXDefault]
+        [PXUIField(DisplayName = "Board Type")]
         public virtual int? BoardType { get; set; }
         #endregion
         #region CaseClassID
@@ -30,7 +41,7 @@ namespace PX.TrelloIntegration
 		}
 
 		[PXDBString(10, IsUnicode = true)]
-		[PXDefault]
+		[PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
 		[PXUIField(DisplayName = "Case Class ID")]
         [PXSelector(typeof(CRCaseClass.caseClassID),
                     DescriptionField = typeof(CRCaseClass.description))]
@@ -45,7 +56,7 @@ namespace PX.TrelloIntegration
 		[PXDefault]
 		[PXUIField(DisplayName = "Trello Board")]
         [PXTrelloBoardSelector]
-        [PXCheckUnique]
+        [PXCheckUnique(typeof(caseClassID), typeof(boardType), IgnoreNulls = true)]
 		public virtual string TrelloBoardID { get; set; }
         #endregion
         #region ListCntr
@@ -57,16 +68,23 @@ namespace PX.TrelloIntegration
         [PXDefault(0)]
         public virtual Int32? ListCntr { get; set; }
         #endregion
-        #region Description
-        public abstract class description : PX.Data.IBqlField
+        #region UserCntr
+        public abstract class userCntr : PX.Data.IBqlField
         {
         }
 
-        [PXDBString(50, InputMask = "", IsUnicode = true)]
-        [PXDefault]
+        [PXDBInt()]
+        [PXDefault(0)]
+        public virtual Int32? UserCntr { get; set; }
+        #endregion
+        #region DisplayName
+        public abstract class displayName : PX.Data.IBqlField
+        {
+        }
+
+        [PXTrelloBoardDisplayName]
         [PXUIField(DisplayName = "Description", Visibility = PXUIVisibility.SelectorVisible, Enabled = false)]
-        [PXFormula(typeof(Default<TrelloBoardMapping.caseClassID>))]
-        public virtual String Description { get; set; }
+        public virtual String DisplayName { get; set; }
         #endregion
         #region System Fields
 
