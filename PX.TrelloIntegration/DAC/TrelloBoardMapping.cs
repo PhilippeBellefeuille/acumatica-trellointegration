@@ -53,8 +53,8 @@ namespace PX.TrelloIntegration
 		}
 
 		[PXDBString(30, IsUnicode = true)]
-		[PXDefault]
-		[PXUIField(DisplayName = "Trello Board")]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXUIField(DisplayName = "Trello Board")]
         [PXTrelloBoardSelector]
         [PXCheckUnique(typeof(caseClassID), typeof(boardType), IgnoreNulls = true)]
 		public virtual string TrelloBoardID { get; set; }
@@ -86,6 +86,49 @@ namespace PX.TrelloIntegration
         [PXUIField(DisplayName = "Description", Visibility = PXUIVisibility.SelectorVisible, Enabled = false)]
         public virtual String DisplayName { get; set; }
         #endregion
+
+        #region temp
+
+        #region TempChildID
+        public abstract class tempChildID : PX.Data.IBqlField
+        {
+        }
+        protected int? _TempChildID;
+        [PXInt]
+        public virtual int? TempChildID
+        {
+            get
+            {
+                return this._TempChildID;
+            }
+            set
+            {
+                this._TempChildID = value;
+            }
+        }
+        #endregion
+
+        #region TempparentID
+        public abstract class tempParentID : PX.Data.IBqlField
+        {
+        }
+        protected int? _TempParentID;
+        [PXInt]
+        public virtual int? TempParentID
+        {
+            get
+            {
+                return this._TempParentID;
+            }
+            set
+            {
+                this._TempParentID = value;
+            }
+        }
+        #endregion
+
+        #endregion
+
         #region System Fields
 
         #region tstamp

@@ -9,7 +9,7 @@ namespace PX.TrelloIntegration
         // public const string YourMessage = "Your message here.";
         #region Validation and Processing Messages
         public const string Prefix = "Trello Error";
-
+        public const string ValidationDeleteChildren = "Are you sure you want to delete this mapping with all it's children ?";
         #endregion
 
         public const string NewBoard = "<NEW>";

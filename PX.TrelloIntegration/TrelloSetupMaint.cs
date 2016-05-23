@@ -138,6 +138,26 @@ namespace PX.TrelloIntegration
                             PXPersistingCheck.NullOrBlank);
         }
 
+        public override void Persist()
+        {
+            base.Persist();
+            foreach (TrelloBoardMapping item in Caches[typeof(TrelloBoardMapping)].Cached)
+            {
+                if (item.TempParentID < 0)
+                {
+                    foreach (TrelloBoardMapping item2 in Caches[typeof(TrelloBoardMapping)].Cached)
+                    {
+                        if (item2.TempChildID == item.TempParentID)
+                        {
+                            item.ParentBoardID = item2.BoardID;
+                            item.TempParentID = item2.BoardID;
+                            Caches[typeof(TrelloBoardMapping)].SetStatus(item, PXEntryStatus.Updated);
+                        }
+                    }
+                }
+            }
+            base.Persist();
+        }
         #endregion
 
         #region Actions
@@ -197,13 +217,20 @@ namespace PX.TrelloIntegration
         [PXButton()]
         public virtual IEnumerable addBoard(PXAdapter adapter)
         {
-            var inserted = (TrelloBoardMapping)Caches[typeof(TrelloBoardMapping)].Insert(new TrelloBoardMapping
+            var selectedBoard = Boards.Current;
+            if (selectedBoard.ParentBoardID == 0)
             {
-                ParentBoardID = Boards.Current.BoardID,
-                BoardType = Boards.Current.BoardType,
-            });
+                var inserted = (TrelloBoardMapping)Caches[typeof(TrelloBoardMapping)].Insert(new TrelloBoardMapping
+                {
+                    BoardType = Boards.Current.BoardType,
+                    ParentBoardID = Boards.Current.BoardID
+                });
 
-            Boards.Cache.ActiveRow = inserted;
+                inserted.TempChildID = inserted.BoardID;
+                inserted.TempParentID = inserted.ParentBoardID;
+
+                Boards.Cache.ActiveRow = inserted;
+            }
             return adapter.Get();
         }
 
@@ -212,7 +239,39 @@ namespace PX.TrelloIntegration
         [PXButton()]
         public virtual IEnumerable deleteBoard(PXAdapter adapter)
         {
-            Caches[typeof(TrelloBoardMapping)].Delete(Boards.Current);
+            var selectedBoard = Boards.Current;
+            if(selectedBoard.BoardID != 0)
+            {
+                if(selectedBoard.ParentBoardID == 0)
+                {
+                    var childrenBoards = PXSelect<TrelloBoardMapping, 
+                                            Where<TrelloBoardMapping.parentBoardID, 
+                                                Equal<Required<TrelloBoardMapping.parentBoardID>>>>
+                                            .Select(this, selectedBoard.BoardID)
+                                            .Select(br => (TrelloBoardMapping)br).ToList();
+
+                    if (childrenBoards.Any())
+                    {
+                        if (Document.Ask(Messages.ValidationDeleteChildren, MessageButtons.YesNo) == WebDialogResult.Yes)
+                        {
+                            foreach(var childrenBoard in childrenBoards)
+                            {
+                                Caches[typeof(TrelloBoardMapping)].Delete(childrenBoard);
+                            }
+                            Caches[typeof(TrelloBoardMapping)].Delete(selectedBoard);
+                        }
+                    }
+                    else
+                    {
+                        Caches[typeof(TrelloBoardMapping)].Delete(selectedBoard);
+                    }
+                }
+                else
+                {
+                    Caches[typeof(TrelloBoardMapping)].Delete(selectedBoard);
+                }
+            }
+
             return adapter.Get();
         }
 
@@ -273,46 +332,6 @@ namespace PX.TrelloIntegration
                 return new TrelloToken(HttpUtility.ParseQueryString(arg).Get("token"));
             }
         }
-
-        #endregion
-
-        #region Tree Helper
-
-        //public class SelectedNode : IBqlTable
-        //{
-        //    //#region BoardType
-        //    //public abstract class boardType : PX.Data.IBqlField
-        //    //{
-        //    //}
-
-        //    //[PXInt(IsKey = true)]
-        //    //[PXIntList(typeof(BoardTypes))]
-        //    //public virtual int? BoardType { get; set; }
-        //    //#endregion
-
-        //    #region BoardID
-        //    public abstract class boardID : PX.Data.IBqlField
-        //    {
-        //    }
-
-        //    [PXInt(IsKey = true)]
-        //    public virtual int? BoardID { get; set; }
-        //    #endregion
-        //}
-
-        //private SelectedNode CurrentSelected
-        //{
-        //    get
-        //    {
-        //        PXCache cache = this.Caches[typeof(SelectedNode)];
-        //        if (cache.Current == null)
-        //        {
-        //            cache.Insert();
-        //            cache.IsDirty = false;
-        //        }
-        //        return (SelectedNode)cache.Current;
-        //    }
-        //}
 
         #endregion
     }
