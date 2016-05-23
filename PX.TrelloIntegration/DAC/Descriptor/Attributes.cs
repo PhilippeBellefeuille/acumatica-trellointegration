@@ -2,6 +2,7 @@
 using PX.Data;
 using PX.Objects.CR;
 using PX.TrelloIntegration.Trello;
+using System.Collections;
 
 namespace PX.TrelloIntegration
 {
@@ -41,13 +42,26 @@ namespace PX.TrelloIntegration
 
         }
 
+        public static Type GetBoardTypeClassDAC(int boardType)
+        {
+            switch (boardType)
+            {
+                case BoardTypes.Lead:
+                    return typeof(CRContactClass);
+                case BoardTypes.Opportunity:
+                    return typeof(CROpportunityClass);
+                default:
+                    return typeof(CRCaseClass);
+            }
+        }
+
         public static Type GetBoardTypeGraph(int boardType)
         {
             switch(boardType)
             {
-                case 1:
+                case BoardTypes.Lead:
                     return typeof(LeadMaint);
-                case 2:
+                case BoardTypes.Opportunity:
                     return typeof(OpportunityMaint);
                 default:
                     return typeof(CRCaseMaint);
@@ -62,6 +76,95 @@ namespace PX.TrelloIntegration
         public static string GetBoardTypeTitle(Type graph)
         {
             return PXSiteMap.Provider.FindSiteMapNode(graph)?.Title;
+        }
+    }
+
+   
+    public class PXTrelloBoardClassSelectorAttribute : PXCustomSelectorAttribute
+    {
+        public class DummyClass : IBqlTable
+        {
+            #region CTOR
+
+            public DummyClass() { }
+
+            public DummyClass(object obj)
+            {
+                if(obj is CRContactClass)
+                {
+                    var contactClass = (CRContactClass)obj;
+                    this.ClassID = contactClass.ClassID;
+                    this.Description = contactClass.Description;
+                    this.IsInternal = contactClass.IsInternal;
+                }
+                if (obj is CROpportunityClass)
+                {
+                    var opportunityClass = (CROpportunityClass)obj;
+                    this.ClassID = opportunityClass.CROpportunityClassID;
+                    this.Description = opportunityClass.Description;
+                    this.IsInternal = opportunityClass.IsInternal;
+                }
+                if (obj is CRCaseClass)
+                {
+                    var caseClass = (CRCaseClass)obj;
+                    this.ClassID = caseClass.CaseClassID;
+                    this.Description = caseClass.Description;
+                    this.IsInternal = caseClass.IsInternal;
+                }
+            }
+
+            #endregion
+
+            #region ClassID
+            public abstract class classID : PX.Data.IBqlField
+            {
+            }
+
+            [PXString(10, IsUnicode = true, IsKey = true)]
+            [PXUIField(DisplayName = "Class ID", Visibility = PXUIVisibility.SelectorVisible)]
+            public virtual String ClassID { get; set; }
+            #endregion
+            #region Description
+            public abstract class description : PX.Data.IBqlField
+            {
+            }
+
+            [PXString(255, IsUnicode = true)]
+            [PXUIField(DisplayName = "Description", Visibility = PXUIVisibility.SelectorVisible)]
+            public virtual String Description { get; set; }
+            #endregion
+
+            #region IsInternal
+            public abstract class isInternal : PX.Data.IBqlField { }
+
+            [PXBool]
+            [PXUIField(DisplayName = "Internal", Visibility = PXUIVisibility.SelectorVisible)]
+            public virtual Boolean? IsInternal { get; set; }
+            #endregion
+        }
+
+        public PXTrelloBoardClassSelectorAttribute() : base(typeof(DummyClass.classID)) { }
+        
+        public IEnumerable GetRecords()
+        {
+            var current = (TrelloBoardMapping)_Graph.Caches[_BqlTable].Current;
+            if(current != null && current.BoardType.HasValue)
+            {
+                var classTable = BoardTypes.GetBoardTypeClassDAC(current.BoardType.Value);
+
+                var select = BqlCommand.Compose(
+                    typeof(Select<>),
+                        classTable
+                );
+
+                var cmd = BqlCommand.CreateInstance(select);
+                PXView view = new PXView(_Graph, true, cmd);
+
+                foreach (var row in view.SelectMulti())
+                {
+                    yield return new DummyClass(row);
+                }
+            }
         }
     }
 
@@ -108,14 +211,14 @@ namespace PX.TrelloIntegration
                 }
                 else
                 {
-                    if(string.IsNullOrEmpty(row.CaseClassID))
+                    if(string.IsNullOrEmpty(row.ClassID))
                     {
                         e.ReturnValue = PXLocalizer.Localize(Messages.NewBoard);
                     }
                     else
                     {
                         e.ReturnValue = GetNameWithTrelloBoardName(
-                                            row.CaseClassID,
+                                            row.ClassID,
                                             sender,
                                             row);
                     }

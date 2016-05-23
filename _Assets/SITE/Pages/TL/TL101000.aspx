@@ -57,7 +57,7 @@
                 <Template>
                     <px:PXLayoutRule ID="PXLayoutRule1" runat="server" StartColumn="True" LabelsWidth="S" ControlSize="SM" />
                     <px:PXDropDown ID="edBoardType" runat="server" DataField="BoardType" CommitChanges="true" />
-                    <px:PXSelector ID="edCaseClassID" runat="server" DataField="CaseClassID" CommitChanges="True"/>                    
+                    <px:PXSelector ID="edClassID" runat="server" DataField="ClassID" CommitChanges="True" AutoRefresh="True" />                    
                     <px:PXLayoutRule ID="PXLayoutRule2" runat="server" StartColumn="True" LabelsWidth="S" ControlSize="SM" />
                     <px:PXSelector ID="edTrelloBoardID" runat="server" DataField="TrelloBoardID" CommitChanges="True"/>
                 </Template>

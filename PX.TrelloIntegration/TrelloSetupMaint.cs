@@ -65,10 +65,10 @@ namespace PX.TrelloIntegration
                 PopulateStates.SetEnabled(!string.IsNullOrEmpty(Boards.Current.TrelloBoardID));
                 
                 PXUIFieldAttribute.SetVisible<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.ParentBoardID == 0);
-                PXUIFieldAttribute.SetVisible<TrelloBoardMapping.caseClassID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.ParentBoardID != 0);
+                PXUIFieldAttribute.SetVisible<TrelloBoardMapping.classID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.ParentBoardID != 0);
 
                 PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
-                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.caseClassID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
+                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.classID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
                 PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.trelloBoardID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
 
                 Caches[typeof(TrelloBoardMapping)].AllowInsert = Boards.Current.BoardID != 0;
@@ -123,7 +123,7 @@ namespace PX.TrelloIntegration
         {
             var row = (TrelloBoardMapping)e.Row;
 
-            PXDefaultAttribute.SetPersistingCheck<TrelloBoardMapping.caseClassID>(
+            PXDefaultAttribute.SetPersistingCheck<TrelloBoardMapping.classID>(
                         sender,
                         row,
                         row.ParentBoardID == 0 ?

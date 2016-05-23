@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[TrelloBoardMapping](
 	[ParentBoardID] [int] NOT NULL,
 	[BoardType] [int] NOT NULL, 
 	[TrelloBoardID] [nvarchar](30) NULL,
-	[CaseClassID] [nvarchar](10) NULL,
+	[ClassID] [nvarchar](10) NULL,
 	[ListCntr] [int] NOT NULL,
 	[UserCntr] [int] NOT NULL,
 	[tstamp] [timestamp] NOT NULL,
