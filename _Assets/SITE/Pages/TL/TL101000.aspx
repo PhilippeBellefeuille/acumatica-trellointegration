@@ -25,7 +25,6 @@
 		</Template>
 	</px:PXFormView>    
 </asp:Content>
-
 <asp:Content ID="cont3" ContentPlaceHolderID="phG" Runat="Server">
     <px:PXSplitContainer runat="server" ID="sp1" SplitterPosition="300">
         <AutoSize Enabled="true" Container="Window" />
@@ -64,11 +63,13 @@
                 </Template>
             </px:PXFormView>
             <px:PXTab runat="server" ID="tab" >
+                <AutoSize Container="Parent" Enabled="True" />
                 <Items>
                     <px:PXTabItem Text="States" LoadOnDemand="True" RepaintOnDemand="True">
                         <Template>
                             <px:PXGrid ID="grid" runat="server" DataSourceID="ds" Style="z-index: 100" 
 		                        Width="100%" SkinID="Inquire" TabIndex="1500">
+                                <AutoSize Container="Parent" Enabled="True" />
 		                        <Levels>
 			                        <px:PXGridLevel DataMember="List">
 			                            <RowTemplate>
@@ -85,7 +86,6 @@
                                         </Columns>
 			                        </px:PXGridLevel>
 		                        </Levels>
-		                        <AutoSize Container="Window" Enabled="True" />
                                 <ActionBar>
                                     <CustomItems>
                                         <px:PXToolBarButton  Key="cmdPopulateState" CommandSourceID="ds" CommandName="PopulateStates" />
@@ -103,5 +103,4 @@
             </px:PXTab>
         </Template2>
     </px:PXSplitContainer>
-
 </asp:Content>
