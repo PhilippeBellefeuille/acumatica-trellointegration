@@ -11,8 +11,10 @@ GO
 CREATE TABLE [dbo].[TrelloBoardMapping](
 	[CompanyID] [int] NOT NULL DEFAULT ((0)),
 	[BoardID] [int] IDENTITY(1,1) NOT NULL,
+	[BoardType] [int] NOT NULL, 
 	[TrelloBoardID] [nvarchar](30) NOT NULL,
 	[CaseClassID] [nvarchar](10) NOT NULL,
+	[Description] [nvarchar](50) NOT NULL,
 	[ListCntr] [int] NOT NULL,
 	[tstamp] [timestamp] NOT NULL,
 	[CreatedByID] [uniqueidentifier] NOT NULL,

@@ -9,4 +9,10 @@ namespace PX.TrelloIntegration
         {
         }
     }
+
+    public enum BoardTypes
+    {
+        Lead = 1,
+        Case = 2
+    }
 }

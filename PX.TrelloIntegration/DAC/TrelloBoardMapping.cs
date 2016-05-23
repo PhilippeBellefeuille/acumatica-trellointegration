@@ -14,9 +14,18 @@ namespace PX.TrelloIntegration
 
 		[PXDBIdentity(IsKey = true)]
 		public virtual int? BoardID { get; set; }
-		#endregion
-		#region CaseClassID
-		public abstract class caseClassID : PX.Data.IBqlField
+        #endregion
+        #region BoardType
+        public abstract class boardType : PX.Data.IBqlField
+        {
+        }
+
+        [PXDBInt]
+        [PXIntList(typeof(BoardTypes))]
+        public virtual int? BoardType { get; set; }
+        #endregion
+        #region CaseClassID
+        public abstract class caseClassID : PX.Data.IBqlField
 		{
 		}
 
@@ -48,7 +57,17 @@ namespace PX.TrelloIntegration
         [PXDefault(0)]
         public virtual Int32? ListCntr { get; set; }
         #endregion
+        #region Description
+        public abstract class description : PX.Data.IBqlField
+        {
+        }
 
+        [PXDBString(50, InputMask = "", IsUnicode = true)]
+        [PXDefault]
+        [PXUIField(DisplayName = "Description", Visibility = PXUIVisibility.SelectorVisible, Enabled = false)]
+        [PXFormula(typeof(Default<TrelloBoardMapping.caseClassID>))]
+        public virtual String Description { get; set; }
+        #endregion
         #region System Fields
 
         #region tstamp
