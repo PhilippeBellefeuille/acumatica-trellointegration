@@ -22,6 +22,9 @@ namespace PX.TrelloIntegration
         public PXSelect<TrelloBoardMapping, 
                     Where<TrelloBoardMapping.boardID, 
                         Equal<Current<TrelloBoardMapping.boardID>>>> CurrentBoard;
+        public PXSelect<TrelloBoardMapping,
+                    Where<TrelloBoardMapping.parentBoardID,
+                        Equal<Optional<TrelloBoardMapping.boardID>>>> ChildBoards;
         public PXSelect<TrelloListMapping, 
                     Where<TrelloListMapping.boardID, 
                         Equal<Current<TrelloBoardMapping.boardID>>>> List;
@@ -45,10 +48,7 @@ namespace PX.TrelloIntegration
             }
             else
             {
-                foreach (TrelloBoardMapping trelloBoard in PXSelect<TrelloBoardMapping,
-                                                Where<TrelloBoardMapping.parentBoardID,
-                                                    Equal<Required<TrelloBoardMapping.parentBoardID>>>>
-                                                    .Select(this, boardID))
+                foreach (TrelloBoardMapping trelloBoard in ChildBoards.Select(boardID))
                 {
                     yield return trelloBoard;
                 }
@@ -59,21 +59,30 @@ namespace PX.TrelloIntegration
         {
             if (Boards.Current != null)
             {
-                AddBoard.SetEnabled(Boards.Current.ParentBoardID == 0);
-                DeleteBoard.SetEnabled(Boards.Current.BoardID != 0);
+                var isNotRoot = Boards.Current.BoardID != 0;
+                var isMainTypeMapping = Boards.Current.ParentBoardID == 0;
+                var hasChildBoard = ChildBoards.Select(Boards.Current.BoardID).Any();
+                var isCompleted = isMainTypeMapping
+                                  ? Boards.Current.BoardType.HasValue
+                                  : !string.IsNullOrEmpty(Boards.Current.ClassID) &&
+                                    !string.IsNullOrEmpty(Boards.Current.TrelloBoardID);
+
+
+                AddBoard.SetEnabled(!isNotRoot || (isMainTypeMapping && isCompleted));
+                DeleteBoard.SetEnabled(isNotRoot);
 
                 PopulateStates.SetEnabled(!string.IsNullOrEmpty(Boards.Current.TrelloBoardID));
                 
-                PXUIFieldAttribute.SetVisible<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.ParentBoardID == 0);
-                PXUIFieldAttribute.SetVisible<TrelloBoardMapping.classID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.ParentBoardID != 0);
+                PXUIFieldAttribute.SetVisible<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, isMainTypeMapping);
+                PXUIFieldAttribute.SetVisible<TrelloBoardMapping.classID>(Caches[typeof(TrelloBoardMapping)], null, !isMainTypeMapping);
 
-                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
-                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.classID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
-                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.trelloBoardID>(Caches[typeof(TrelloBoardMapping)], null, Boards.Current.BoardID != 0);
+                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, !hasChildBoard && isNotRoot);
+                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.classID>(Caches[typeof(TrelloBoardMapping)], null, isNotRoot);
+                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.trelloBoardID>(Caches[typeof(TrelloBoardMapping)], null, isNotRoot);
 
-                Caches[typeof(TrelloBoardMapping)].AllowInsert = Boards.Current.BoardID != 0;
-                Caches[typeof(TrelloBoardMapping)].AllowDelete = Boards.Current.BoardID != 0;
-                Caches[typeof(TrelloBoardMapping)].AllowUpdate = Boards.Current.BoardID != 0;
+                Caches[typeof(TrelloBoardMapping)].AllowInsert = isNotRoot;
+                Caches[typeof(TrelloBoardMapping)].AllowDelete = isNotRoot;
+                Caches[typeof(TrelloBoardMapping)].AllowUpdate = isNotRoot;
 
                 foreach (TrelloBoardMapping item in PXSelect<TrelloBoardMapping,
                                                         Where<TrelloBoardMapping.boardID, 
@@ -244,11 +253,9 @@ namespace PX.TrelloIntegration
             {
                 if(selectedBoard.ParentBoardID == 0)
                 {
-                    var childrenBoards = PXSelect<TrelloBoardMapping, 
-                                            Where<TrelloBoardMapping.parentBoardID, 
-                                                Equal<Required<TrelloBoardMapping.parentBoardID>>>>
-                                            .Select(this, selectedBoard.BoardID)
-                                            .Select(br => (TrelloBoardMapping)br).ToList();
+                    var childrenBoards = ChildBoards
+                                         .Select(selectedBoard.BoardID)
+                                         .Select(br => (TrelloBoardMapping)br).ToList();
 
                     if (childrenBoards.Any())
                     {

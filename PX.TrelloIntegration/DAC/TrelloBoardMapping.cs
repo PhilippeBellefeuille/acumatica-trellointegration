@@ -56,7 +56,7 @@ namespace PX.TrelloIntegration
         [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
         [PXUIField(DisplayName = "Trello Board")]
         [PXTrelloBoardSelector]
-        [PXCheckUnique(typeof(classID), typeof(boardType), IgnoreNulls = true)]
+        [PXCheckUnique(typeof(classID), typeof(boardType), IgnoreNulls = false)]
 		public virtual string TrelloBoardID { get; set; }
         #endregion
         #region ListCntr
