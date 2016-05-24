@@ -5,6 +5,6 @@ namespace PX.TrelloIntegration
 {
     public class LeadMaintTrello : PXGraphExtension<LeadMaint>
     {
-        public CRTrelloSelect Trello;
+        public CRTrelloSelect<Contact.noteID> Trello;
     }
 }

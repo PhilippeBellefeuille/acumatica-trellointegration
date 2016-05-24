@@ -36,9 +36,9 @@ namespace PX.TrelloIntegration
         [PXParent(typeof(Select<CRCase,
                             Where<CRCase.noteID,
                                 Equal<TrelloCardMapping.refNoteID>>>))]
-        [PXDBDefault(typeof(Contact.noteID))]
-        [PXDBDefault(typeof(CROpportunity.noteID))]
-        [PXDBDefault(typeof(CRCase.noteID))]
+        [PXDBDefault(typeof(Contact.noteID), PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXDBDefault(typeof(CROpportunity.noteID), PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXDBDefault(typeof(CRCase.noteID), PersistingCheck = PXPersistingCheck.Nothing)]
         public virtual Guid? RefNoteID { get; set; }
         #endregion
 
@@ -49,7 +49,6 @@ namespace PX.TrelloIntegration
 
 		[PXDBString(30, IsUnicode = true)]
 		[PXUIField(DisplayName = "Trello Card", Enabled = false, Visible = false)]
-        [PXDefault]
 		public virtual string TrelloCardID { get; set; }
         #endregion
 

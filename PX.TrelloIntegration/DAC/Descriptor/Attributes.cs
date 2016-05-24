@@ -62,6 +62,18 @@ namespace PX.TrelloIntegration
             }
         }
 
+        public static int? GetBoardTypeFromGraph(Type graph)
+        {
+            if (graph == typeof(LeadMaint))
+                return BoardTypes.Lead;
+            else if (graph == typeof(OpportunityMaint))
+                return BoardTypes.Opportunity;
+            else if (graph == typeof(CRCaseMaint))
+                return BoardTypes.Case;
+            else
+                return null;
+        }
+
         public static string GetBoardTypeTitle(int boardType)
         {
             return GetBoardTypeTitle(GetBoardTypeGraph(boardType));
@@ -83,7 +95,6 @@ namespace PX.TrelloIntegration
         }
     }
 
-   
     public class PXTrelloBoardClassSelectorAttribute : PXCustomSelectorAttribute
     {
         public class DummyClass : IBqlTable

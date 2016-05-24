@@ -12,7 +12,7 @@ CREATE TABLE [dbo].[TrelloCardMapping](
 	[CompanyID] [int] NOT NULL DEFAULT ((0)),
 	[BoardID] [int] NOT NULL,
 	[RefNoteID] [uniqueidentifier] NOT NULL,
-	[TrelloCardID] [nvarchar](30) NOT NULL,
+	[TrelloCardID] [nvarchar](30) NULL, --If the value is null it means that trello was not available on creation.
 	[tstamp] [timestamp] NOT NULL,
 	[CreatedByID] [uniqueidentifier] NOT NULL,
 	[CreatedByScreenID] [char](8) NOT NULL,

@@ -5,6 +5,6 @@ namespace PX.TrelloIntegration
 {
     public class CRCaseMaintTrello : PXGraphExtension<CRCaseMaint>
     {
-        public CRTrelloSelect Trello;
+        public CRTrelloSelect<CRCase.noteID> Trello;
     }
 }
