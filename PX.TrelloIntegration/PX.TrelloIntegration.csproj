@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAC\Attributes\PXTrelloListSelectorAttribute.cs" />
     <Compile Include="DAC\Attributes\PXTrelloSelectorBaseAttribute.cs" />
     <Compile Include="DAC\Attributes\PXTrelloOrganizationSelectorAttribute.cs" />
     <Compile Include="DAC\Attributes\PXTrelloBoardSelectorAttribute.cs" />
@@ -88,7 +89,9 @@
     </Compile>
     <Compile Include="TrelloSetupMaint.cs" />
     <Compile Include="Trello\Data\Interfaces.cs" />
+    <Compile Include="Trello\Data\TrelloList.cs" />
     <Compile Include="Trello\Data\TrelloMember.cs" />
+    <Compile Include="Trello\Repository\TrelloListRepository.cs" />
     <Compile Include="Trello\Repository\TrelloMemberRepository.cs" />
     <Compile Include="Trello\Repository\TrelloOrganizationRepository.cs" />
     <Compile Include="Trello\Repository\TrelloBoardRepository.cs" />

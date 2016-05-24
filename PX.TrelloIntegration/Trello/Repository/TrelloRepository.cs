@@ -65,9 +65,9 @@ namespace PX.TrelloIntegration.Trello
     {
         public TrelloRepository(object arg) : base(arg) { }
 
-        public IEnumerable<TTrelloDac> GetAll()
+        public IEnumerable<TTrelloDac> GetAll(string parentID = "")
         {
-            foreach (var obj in GetAllTrelloObject())
+            foreach (var obj in GetAllTrelloObject(parentID))
             {
                 yield return To(obj);
             }

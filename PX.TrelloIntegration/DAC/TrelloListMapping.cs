@@ -37,7 +37,8 @@ namespace PX.TrelloIntegration
 
 		[PXDBString(30, IsUnicode = true)]
 		[PXUIField(DisplayName = "Trello List")]
-        [PXTrelloBoardSelector]
+        [PXDefault]
+        [PXTrelloListSelector(typeof(TrelloListMapping.boardID))]
 		public virtual string TrelloListID { get; set; }
         #endregion
 

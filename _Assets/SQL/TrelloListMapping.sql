@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[TrelloListMapping](
 	[ListID] [int] NOT NULL,
 	[ScreenID] [char](8) NOT NULL,
 	[StepID] [nvarchar](64) NOT NULL,
-	[TrelloListID] [nvarchar](30) NULL,
+	[TrelloListID] [nvarchar](30) NOT NULL,
 	[tstamp] [timestamp] NOT NULL,
 	[CreatedByID] [uniqueidentifier] NOT NULL,
 	[CreatedByScreenID] [char](8) NOT NULL,
