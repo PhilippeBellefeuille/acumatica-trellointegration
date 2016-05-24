@@ -73,12 +73,12 @@
 		                        <Levels>
 			                        <px:PXGridLevel DataMember="List">
 			                            <RowTemplate>
-                                            <px:PXSelector ID="edStepID" runat="server" DataField="StepID" AllowEdit="True" AutoRefresh="True">
-                                            </px:PXSelector>
-                                            <px:PXSelector ID="edTrelloListID" runat="server" DataField="TrelloListID">
-                                            </px:PXSelector>
+                                            <px:PXSelector ID="edStepID" runat="server" DataField="StepID" AllowEdit="True" AutoRefresh="True" />
+                                            <px:PXSelector ID="edTrelloListID" runat="server" DataField="TrelloListID" />
                                         </RowTemplate>
                                         <Columns>
+                                            <px:PXGridColumn DataField="ScreenID" Width="100px">
+                                            </px:PXGridColumn>
                                             <px:PXGridColumn DataField="StepID" Width="200px">
                                             </px:PXGridColumn>
                                             <px:PXGridColumn DataField="TrelloListID" Width="200px">

@@ -30,7 +30,10 @@ namespace PX.TrelloIntegration
         {
             if (e.Row != null)
             {
-                PXUIFieldAttribute.SetEnabled(sender, e.Row, _FieldName, Repository != null);
+                sender.RaiseExceptionHandling(_FieldName, e.Row, sender.GetValue(e.Row, _FieldOrdinal), 
+                                                                       Repository != null
+                                                                       ? null 
+                                                                       :new PXSetPropertyException(Messages.NotLoggedIn, PXErrorLevel.Warning));
 
                 if(UseSetupCache && Repository == null)
                 {

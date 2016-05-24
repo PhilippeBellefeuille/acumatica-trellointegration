@@ -27,7 +27,7 @@ namespace PX.TrelloIntegration
                         Equal<Optional<TrelloBoardMapping.boardID>>>> ChildBoards;
         public PXSelect<TrelloListMapping, 
                     Where<TrelloListMapping.boardID, 
-                        Equal<Current<TrelloBoardMapping.boardID>>>> List;
+                        Equal<Optional<TrelloBoardMapping.boardID>>>> List;
 
         #endregion
 
@@ -66,19 +66,23 @@ namespace PX.TrelloIntegration
                                   ? Boards.Current.BoardType.HasValue
                                   : !string.IsNullOrEmpty(Boards.Current.ClassID) &&
                                     !string.IsNullOrEmpty(Boards.Current.TrelloBoardID);
+                var typeOrClassFilled = isMainTypeMapping 
+                                        ? Boards.Current.BoardType.HasValue
+                                        : !string.IsNullOrEmpty(Boards.Current.ClassID);
+                var trelloBoardIDFilled = !string.IsNullOrEmpty(Boards.Current.TrelloBoardID);
 
 
                 AddBoard.SetEnabled(!isNotRoot || (isMainTypeMapping && isCompleted));
                 DeleteBoard.SetEnabled(isNotRoot);
 
-                PopulateStates.SetEnabled(!string.IsNullOrEmpty(Boards.Current.TrelloBoardID));
+                PopulateStates.SetEnabled(trelloBoardIDFilled);
                 
                 PXUIFieldAttribute.SetVisible<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, isMainTypeMapping);
                 PXUIFieldAttribute.SetVisible<TrelloBoardMapping.classID>(Caches[typeof(TrelloBoardMapping)], null, !isMainTypeMapping);
 
-                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, !hasChildBoard && isNotRoot);
+                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.boardType>(Caches[typeof(TrelloBoardMapping)], null, isNotRoot && !hasChildBoard && !trelloBoardIDFilled);
                 PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.classID>(Caches[typeof(TrelloBoardMapping)], null, isNotRoot);
-                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.trelloBoardID>(Caches[typeof(TrelloBoardMapping)], null, isNotRoot);
+                PXUIFieldAttribute.SetEnabled<TrelloBoardMapping.trelloBoardID>(Caches[typeof(TrelloBoardMapping)], null, isNotRoot && typeOrClassFilled);
 
                 Caches[typeof(TrelloBoardMapping)].AllowInsert = isNotRoot;
                 Caches[typeof(TrelloBoardMapping)].AllowDelete = isNotRoot;
@@ -126,6 +130,11 @@ namespace PX.TrelloIntegration
                 DeleteBoard.SetEnabled(DeleteBoard.GetEnabled() && isConnected);
                 PopulateStates.SetEnabled(PopulateStates.GetEnabled() && isConnected);
             }
+        }
+
+        public virtual void TrelloBoardMapping_TrelloBoardID_FieldUpdated(PXCache sender, PXFieldUpdatedEventArgs e)
+        {
+            UpdateStates((TrelloBoardMapping)e.Row, true);
         }
 
         public virtual void TrelloBoardMapping_RowPersisting(PXCache sender, PXRowPersistingEventArgs e)
@@ -284,31 +293,53 @@ namespace PX.TrelloIntegration
 
         public PXAction<TrelloSetup> PopulateStates;
         [PXButton]
-        [PXUIField(DisplayName = "Populate")]
+        [PXUIField(DisplayName = "Reload")]
         public virtual void populateStates()
         {
-            var listMapping = List.Select()
-                                  .Select(tl => (TrelloListMapping)tl)
-                                  .ToList();
+            var board = (TrelloBoardMapping)Caches[typeof(TrelloBoardMapping)].Current;
+            UpdateStates(board, false);
+        }
 
-            var currentSteps = listMapping
-                                  .Select(tl => Tuple.Create(tl.ScreenID, tl.StepID))
-                                  .ToList();
+        #endregion
 
-            var systemSteps = PXSelect<AUStep,
-                                    Where<AUStep.screenID,
-                                        Equal<BoardTypes.ScreenID<Current<TrelloBoardMapping.boardType>>>>>
-                                  .Select(this)
-                                  .Select(aus => Tuple.Create(((AUStep)aus).ScreenID, ((AUStep)aus).StepID))
-                                  .ToList();
+        #region Configuration Helpers
 
-            //Remove deprecated mapping
-            foreach (var list in listMapping.Where(tl => !systemSteps.Contains(Tuple.Create(tl.ScreenID, tl.StepID))))
-                List.Delete(list);
+        public virtual void UpdateStates(TrelloBoardMapping board, bool purgeList)
+        {
+            if(board != null)
+            {
+                if (purgeList || string.IsNullOrEmpty(board.TrelloBoardID))
+                {
+                    foreach (TrelloListMapping list in List.Select(board.BoardID))
+                        List.Delete(list);
+                }
 
-            //Add new Mapping
-            foreach (var step in systemSteps.Where(st => !currentSteps.Contains(st)))
-                List.Insert(new TrelloListMapping() { ScreenID = step.Item1, StepID = step.Item2 });
+                if(!string.IsNullOrEmpty(board.TrelloBoardID))
+                {
+                    var listMapping = List.Select(board.BoardID)
+                              .Select(tl => (TrelloListMapping)tl)
+                              .ToList();
+
+                    var currentSteps = listMapping
+                                          .Select(tl => Tuple.Create(tl.ScreenID, tl.StepID))
+                                          .ToList();
+
+                    var systemSteps = PXSelect<AUStep,
+                                            Where<AUStep.screenID,
+                                                Equal<Required<AUStep.screenID>>>>
+                                          .Select(this, BoardTypes.GetBoardTypeScreenID(board.BoardType.GetValueOrDefault()))
+                                          .Select(aus => Tuple.Create(((AUStep)aus).ScreenID, ((AUStep)aus).StepID))
+                                          .ToList();
+
+                    //Remove deprecated mapping
+                    foreach (var list in listMapping.Where(tl => !systemSteps.Contains(Tuple.Create(tl.ScreenID, tl.StepID))))
+                        List.Delete(list);
+
+                    //Add new Mapping
+                    foreach (var step in systemSteps.Where(st => !currentSteps.Contains(st)))
+                        List.Insert(new TrelloListMapping() { BoardID = board.BoardID, ScreenID = step.Item1, StepID = step.Item2 });
+                }
+            }
         }
 
         #endregion

@@ -91,46 +91,6 @@ namespace PX.TrelloIntegration
         {
             return PXSiteMap.Provider.FindSiteMapNode(graph)?.ScreenID;
         }
-
-        public class ScreenID<TBoardType> : BqlFormula, IBqlOperand, IBqlCreator
-            where TBoardType : IBqlOperand
-        {
-            public void Parse(PXGraph graph, List<IBqlParameter> pars, List<Type> tables, List<Type> fields, List<IBqlSortColumn> sortColumns, StringBuilder text, BqlCommand.Selection selection)
-            {
-                if (graph != null && text != null)
-                {
-                    text.Append(' ');
-                    text.Append(graph.SqlDialect.enquoteValue(GetValue(graph, tables)));
-                }
-            }
-
-            public void Verify(PXCache cache, object item, List<object> pars, ref bool? result, ref object value)
-            {
-                value = GetValue(cache, item);
-            }
-
-            private string GetValue(PXGraph graph, List<Type> tables)
-            {
-                foreach(var table in tables)
-                {
-                    var cache = graph.Caches[table];
-                    var item = cache.Current;
-                    var value = GetValue(cache, item);
-                    if (!string.IsNullOrEmpty(value))
-                        return value;
-                }
-
-                return string.Empty;
-            }
-
-            private string GetValue(PXCache cache, object item)
-            {
-                int? boardType = (int?)Calculate<TBoardType>(cache, item);
-                return boardType.HasValue
-                       ? GetBoardTypeScreenID(boardType.Value)
-                       : string.Empty;
-            }
-        }
     }
 
    
