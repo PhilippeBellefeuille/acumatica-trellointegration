@@ -36,21 +36,30 @@ namespace PX.TrelloIntegration
 		}
 
 		[PXDBString(30, IsUnicode = true)]
-		[PXDefault]
 		[PXUIField(DisplayName = "Trello List")]
         [PXTrelloBoardSelector]
 		public virtual string TrelloListID { get; set; }
         #endregion
 
+        #region ScreenID
+        public abstract class screenID : IBqlField
+        {
+        }
+
+        [PXDBString(8, IsFixed = true)]
+        [PXDefault]
+        [PXUIField(DisplayName = "Screen ID", Visibility = PXUIVisibility.SelectorVisible, Enabled = false)]
+        public virtual String ScreenID { get; set; }
+        #endregion
         #region StepID
         public abstract class stepID : IBqlField
         {
         }
 
-        [PXDBString(64, IsUnicode = true, InputMask = "")]
+        [PXDBString(64, IsUnicode = true)]
         [PXDefault]
-        [PXUIField(DisplayName = "Step ID", Visibility = PXUIVisibility.SelectorVisible)]
-        [PXSelector(typeof(Search<AUStep.stepID, Where<AUStep.screenID, Equal<caseScreenID>>>))]
+        [PXUIField(DisplayName = "Step ID", Visibility = PXUIVisibility.SelectorVisible, Enabled = false)]
+        [PXSelector(typeof(Search<AUStep.stepID, Where<AUStep.screenID, Equal<Optional<TrelloListMapping.screenID>>>>))]
         public virtual String StepID { get; set; }
         #endregion
         #region System Fields

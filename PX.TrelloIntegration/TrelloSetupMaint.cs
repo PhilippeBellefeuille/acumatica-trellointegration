@@ -292,23 +292,23 @@ namespace PX.TrelloIntegration
                                   .ToList();
 
             var currentSteps = listMapping
-                                  .Select(tl => tl.StepID)
+                                  .Select(tl => Tuple.Create(tl.ScreenID, tl.StepID))
                                   .ToList();
 
             var systemSteps = PXSelect<AUStep,
                                     Where<AUStep.screenID,
-                                        Equal<caseScreenID>>>
+                                        Equal<BoardTypes.ScreenID<Current<TrelloBoardMapping.boardType>>>>>
                                   .Select(this)
-                                  .Select(aus => ((AUStep)aus).StepID)
+                                  .Select(aus => Tuple.Create(((AUStep)aus).ScreenID, ((AUStep)aus).StepID))
                                   .ToList();
 
             //Remove deprecated mapping
-            foreach (var list in listMapping.Where(tl => !systemSteps.Contains(tl.StepID)))
+            foreach (var list in listMapping.Where(tl => !systemSteps.Contains(Tuple.Create(tl.ScreenID, tl.StepID))))
                 List.Delete(list);
 
             //Add new Mapping
             foreach (var step in systemSteps.Where(st => !currentSteps.Contains(st)))
-                List.Insert(new TrelloListMapping() { StepID = step });
+                List.Insert(new TrelloListMapping() { ScreenID = step.Item1, StepID = step.Item2 });
         }
 
         #endregion

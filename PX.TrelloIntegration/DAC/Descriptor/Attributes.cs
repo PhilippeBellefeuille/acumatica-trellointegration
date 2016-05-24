@@ -3,16 +3,20 @@ using PX.Data;
 using PX.Objects.CR;
 using PX.TrelloIntegration.Trello;
 using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 
 namespace PX.TrelloIntegration
 {
-    public class caseScreenID : Constant<string>
-    {
-        public caseScreenID()
-            : base("CR306000")
-        {
-        }
-    }
+    //public class caseScreenID : Constant<string>
+    //{
+    //    public caseScreenID()
+    //        : base("CR306000")
+    //    {
+    //    }
+    //}
+
+    
 
     public static class BoardTypes
     {
@@ -76,6 +80,56 @@ namespace PX.TrelloIntegration
         public static string GetBoardTypeTitle(Type graph)
         {
             return PXSiteMap.Provider.FindSiteMapNode(graph)?.Title;
+        }
+
+        public static string GetBoardTypeScreenID(int boardType)
+        {
+            return GetBoardTypeScreenID(GetBoardTypeGraph(boardType));
+        }
+
+        public static string GetBoardTypeScreenID(Type graph)
+        {
+            return PXSiteMap.Provider.FindSiteMapNode(graph)?.ScreenID;
+        }
+
+        public class ScreenID<TBoardType> : BqlFormula, IBqlOperand, IBqlCreator
+            where TBoardType : IBqlOperand
+        {
+            public void Parse(PXGraph graph, List<IBqlParameter> pars, List<Type> tables, List<Type> fields, List<IBqlSortColumn> sortColumns, StringBuilder text, BqlCommand.Selection selection)
+            {
+                if (graph != null && text != null)
+                {
+                    text.Append(' ');
+                    text.Append(graph.SqlDialect.enquoteValue(GetValue(graph, tables)));
+                }
+            }
+
+            public void Verify(PXCache cache, object item, List<object> pars, ref bool? result, ref object value)
+            {
+                value = GetValue(cache, item);
+            }
+
+            private string GetValue(PXGraph graph, List<Type> tables)
+            {
+                foreach(var table in tables)
+                {
+                    var cache = graph.Caches[table];
+                    var item = cache.Current;
+                    var value = GetValue(cache, item);
+                    if (!string.IsNullOrEmpty(value))
+                        return value;
+                }
+
+                return string.Empty;
+            }
+
+            private string GetValue(PXCache cache, object item)
+            {
+                int? boardType = (int?)Calculate<TBoardType>(cache, item);
+                return boardType.HasValue
+                       ? GetBoardTypeScreenID(boardType.Value)
+                       : string.Empty;
+            }
         }
     }
 
