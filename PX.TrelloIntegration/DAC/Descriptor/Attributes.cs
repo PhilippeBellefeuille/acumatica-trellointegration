@@ -8,16 +8,6 @@ using System.Text;
 
 namespace PX.TrelloIntegration
 {
-    //public class caseScreenID : Constant<string>
-    //{
-    //    public caseScreenID()
-    //        : base("CR306000")
-    //    {
-    //    }
-    //}
-
-    
-
     public static class BoardTypes
     {
         public const int Lead = 1;

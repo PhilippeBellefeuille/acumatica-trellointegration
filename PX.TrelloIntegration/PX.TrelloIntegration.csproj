@@ -72,12 +72,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AEF\CRCaseMaintTrello.cs" />
+    <Compile Include="AEF\LeadMaintTrello.cs" />
+    <Compile Include="AEF\OpportunityMaintTrello.cs" />
+    <Compile Include="CRTrelloSelect.cs" />
     <Compile Include="DAC\Attributes\PXTrelloListSelectorAttribute.cs" />
     <Compile Include="DAC\Attributes\PXTrelloSelectorBaseAttribute.cs" />
     <Compile Include="DAC\Attributes\PXTrelloOrganizationSelectorAttribute.cs" />
     <Compile Include="DAC\Attributes\PXTrelloBoardSelectorAttribute.cs" />
     <Compile Include="DAC\Descriptor\Attributes.cs" />
     <Compile Include="DAC\Descriptor\Messages.cs" />
+    <Compile Include="DAC\TrelloCardMapping.cs" />
     <Compile Include="DAC\TrelloListMapping.cs" />
     <Compile Include="DAC\TrelloBoardMapping.cs" />
     <Compile Include="DAC\TrelloSetup.cs" />
