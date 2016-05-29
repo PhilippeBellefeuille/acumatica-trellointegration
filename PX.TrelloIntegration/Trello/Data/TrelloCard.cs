@@ -4,9 +4,8 @@ using System;
 namespace PX.TrelloIntegration.Trello
 {
     [Serializable]
-    public class TrelloBoard : IBqlTable, ITrelloObject, ITrelloOrganizationObject
+    public class TrelloCard : IBqlTable, ITrelloObject
     {
-
         #region ID
         public abstract class id : PX.Data.IBqlField
         {
@@ -17,35 +16,36 @@ namespace PX.TrelloIntegration.Trello
         [PXUIField(Visible = false, Enabled = false)]
         public virtual string Id { get; set; }
         #endregion
-        #region OrganizationId
-        public abstract class organizationId : PX.Data.IBqlField
+
+        #region ListID
+        public abstract class listID : PX.Data.IBqlField
         {
         }
 
-        //Organization
         [PXString(15, IsUnicode = true)]
         [PXDefault]
         [PXUIField(Visible = false, Enabled = false)]
-        public virtual string OrganizationId { get; set; }
+        public virtual string ListId { get; set; }
         #endregion
+
         #region Name
         public abstract class name : PX.Data.IBqlField
         {
         }
 
-        [PXString(50, IsUnicode = true)]
+        [PXString]
         [PXUIField(DisplayName = "Name", Visibility = PXUIVisibility.SelectorVisible)]
         public virtual string Name { get; set; }
         #endregion
-        #region Descr
-        public abstract class descr : PX.Data.IBqlField
+
+        #region Body
+        public abstract class description : PX.Data.IBqlField
         {
         }
 
-        [PXString(300, IsUnicode = true)]
-        [PXUIField(DisplayName = "Descr", Visibility = PXUIVisibility.SelectorVisible)]
-        public virtual string Descr { get; set; }
+        [PXString]
+        [PXUIField(DisplayName = "Description")]
+        public virtual string Description { get; set; }
         #endregion
-
     }
 }

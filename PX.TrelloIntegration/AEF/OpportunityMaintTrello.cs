@@ -5,6 +5,6 @@ namespace PX.TrelloIntegration
 {
     public class OpportunityMaintTrello : PXGraphExtension<OpportunityMaint>
     {
-        public CRTrelloSelect<CROpportunity.noteID> Trello;
+        public CRTrelloSelect<CROpportunity, CROpportunity.noteID, CROpportunity.cROpportunityClassID> Trello;
     }
 }

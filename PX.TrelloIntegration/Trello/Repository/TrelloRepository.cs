@@ -117,7 +117,20 @@ namespace PX.TrelloIntegration.Trello
         {
             base.Connect();
             if (!string.IsNullOrEmpty(Setup.TrelloOrganizationID) && !Member.Me.Organizations.Any(org => org.Id == Setup.TrelloOrganizationID))
-                throw new PXException("TODO: User not member of selected organization");
+                throw new PXException(Messages.UserNotInOrganization);
         }
+    }
+
+    public abstract class TrelloUpdatableRepository<TTrelloDac, TTrelloObject> :
+                            TrelloRepository<TTrelloDac, TTrelloObject>
+        where TTrelloDac : class, IBqlTable, ITrelloObject, new()
+    {
+        public TrelloUpdatableRepository(object arg) : base(arg) { }
+        
+        public abstract string Insert(TTrelloDac obj);
+
+        public abstract bool Update(TTrelloDac obj);
+
+        public abstract bool Delete(TTrelloDac obj);
     }
 }

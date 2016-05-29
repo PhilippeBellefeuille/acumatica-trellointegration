@@ -11,6 +11,7 @@ namespace PX.TrelloIntegration
         public const string Prefix = "Trello Error";
         public const string ValidationDeleteChildren = "Are you sure you want to delete this mapping with all it's children ?";
         public const string NotLoggedIn = "You are not logged in to Trello";
+        public const string UserNotInOrganization = "User is not a member of the selected organization";
         #endregion
 
         public const string NewBoard = "<NEW>";

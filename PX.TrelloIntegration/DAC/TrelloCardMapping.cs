@@ -52,6 +52,25 @@ namespace PX.TrelloIntegration
 		public virtual string TrelloCardID { get; set; }
         #endregion
 
+        #region CurrentListID
+        public abstract class currentListID : PX.Data.IBqlField
+        {
+        }
+
+        [PXDBInt()]
+        public virtual int? CurrentListID { get; set; }
+        #endregion
+
+        #region NewListID
+        public abstract class newListID : PX.Data.IBqlField
+        {
+        }
+
+        [PXDBInt()]
+        [PXDefault]
+        public virtual int? NewListID { get; set; }
+        #endregion
+
         #region System Fields
 
         #region tstamp

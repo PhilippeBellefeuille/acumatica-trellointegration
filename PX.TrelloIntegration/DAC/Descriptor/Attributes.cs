@@ -62,13 +62,16 @@ namespace PX.TrelloIntegration
             }
         }
 
-        public static int? GetBoardTypeFromGraph(Type graph)
+        public static int? GetBoardFromDAC<TDac>()
+            where TDac : IBqlTable
         {
-            if (graph == typeof(LeadMaint))
+            var dacType = typeof(TDac);
+
+            if (typeof(Contact).IsAssignableFrom(dacType))
                 return BoardTypes.Lead;
-            else if (graph == typeof(OpportunityMaint))
+            else if (typeof(CROpportunity).IsAssignableFrom(dacType))
                 return BoardTypes.Opportunity;
-            else if (graph == typeof(CRCaseMaint))
+            else if (typeof(CRCase).IsAssignableFrom(dacType))
                 return BoardTypes.Case;
             else
                 return null;
@@ -92,6 +95,43 @@ namespace PX.TrelloIntegration
         public static string GetBoardTypeScreenID(Type graph)
         {
             return PXSiteMap.Provider.FindSiteMapNode(graph)?.ScreenID;
+        }
+
+        public static bool GetBoardNameDescription<TDac>(object current, out string name, out string description)
+            where TDac : IBqlTable
+        {
+            var primaryType = typeof(TDac);
+            if (current != null && typeof(Contact).IsAssignableFrom(primaryType))
+            {
+                var contact = (Contact)current;
+
+                //TODO: Find right information
+                name = contact.Title;
+                description = contact.DisplayName;
+                return true;
+            }
+            else if (current != null && typeof(CROpportunity).IsAssignableFrom(primaryType))
+            {
+                var opportunity = (CROpportunity)current;
+
+                name = opportunity.OpportunityName;
+                description = opportunity.Description;
+                return true;
+            }
+            else if (current != null && typeof(CRCase).IsAssignableFrom(primaryType))
+            {
+                var crCase = (CRCase)current;
+
+                name = crCase.Subject;
+                description = crCase.DescriptionAsPlainText;
+                return true;
+            }
+            else
+            {
+                name = string.Empty;
+                description = string.Empty;
+                return false;
+            }
         }
     }
 

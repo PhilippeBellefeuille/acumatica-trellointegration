@@ -13,6 +13,8 @@ CREATE TABLE [dbo].[TrelloCardMapping](
 	[BoardID] [int] NOT NULL,
 	[RefNoteID] [uniqueidentifier] NOT NULL,
 	[TrelloCardID] [nvarchar](30) NULL, --If the value is null it means that trello was not available on creation.
+	[CurrentListID] [int] NULL,
+	[NewListID] [int] NOT NULL, --We keep this value in the db to see get a trace if Trello was not available to save it. Should be in sync with CurrentListID if it was.
 	[tstamp] [timestamp] NOT NULL,
 	[CreatedByID] [uniqueidentifier] NOT NULL,
 	[CreatedByScreenID] [char](8) NOT NULL,

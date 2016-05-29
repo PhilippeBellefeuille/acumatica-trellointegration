@@ -94,8 +94,10 @@
     </Compile>
     <Compile Include="TrelloSetupMaint.cs" />
     <Compile Include="Trello\Data\Interfaces.cs" />
+    <Compile Include="Trello\Data\TrelloCard.cs" />
     <Compile Include="Trello\Data\TrelloList.cs" />
     <Compile Include="Trello\Data\TrelloMember.cs" />
+    <Compile Include="Trello\Repository\TrelloCardRepository.cs" />
     <Compile Include="Trello\Repository\TrelloListRepository.cs" />
     <Compile Include="Trello\Repository\TrelloMemberRepository.cs" />
     <Compile Include="Trello\Repository\TrelloOrganizationRepository.cs" />

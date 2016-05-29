@@ -11,7 +11,7 @@ namespace PX.TrelloIntegration.Trello
         {
         }
 
-        [PXString(15, IsUnicode = true)]
+        [PXString(15, IsUnicode = true, IsKey = true)]
         [PXDefault]
         [PXUIField(Visible = false, Enabled = false)]
         public virtual string Id { get; set; }
