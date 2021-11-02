@@ -1,2 +1,2 @@
-# acumatica-trellointegration
-Acumatica CRM Integration with Trello
+# Acumatica Trello Integration
+Proof of concept for integrating Acumatica CRM  with Trello
